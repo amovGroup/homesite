@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.LocationConfigBaseMapper">
+
+
+    <insert id="insertLocationConfig"  useGeneratedKeys="true" keyProperty="locationConfigId">
+        INSERT INTO `location_config`
+        (
+        <trim suffixOverrides=",">
+                    <if test="locationConfigId!=null">
+                        `location_config_id`,
+                    </if>
+                    <if test="content!=null">
+                        `content`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="locationConfigId!=null">
+                    #{locationConfigId},
+                </if>
+                <if test="content!=null">
+                    #{content},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateLocationConfig">
+        UPDATE `location_config`
+        SET
+        <trim suffixOverrides=",">
+            <if test="content != null and content!=''">
+                `content` = #{content},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `location_config_id` = #{locationConfigId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `location_config`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.content != null and set.content!=''">
+            `content` = #{set.content},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.locationConfigIdList != null">
+                    `location_config_id` in
+                    <foreach collection="where.locationConfigIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.locationConfigIdSt !=null">
+                `location_config_id` >= #{where.locationConfigIdSt} and
+            </if>
+            <if test="where.locationConfigIdEd!=null">
+                `location_config_id` &lt;= #{where.locationConfigIdEd} and
+            </if>
+                <if test="where.contentList != null">
+                    `content` in
+                    <foreach collection="where.contentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyContent!=null and where.fuzzyContent.size()>0">
+                (
+                <foreach collection="where.fuzzyContent"  separator="or" item="item">
+                    `Content` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyContent!=null and where.rightFuzzyContent.size()>0">
+                (
+                <foreach collection="where.rightFuzzyContent"  separator="or" item="item">
+                    `Content` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.LocationConfig" id="LocationConfigMap">
+        <result property="locationConfigId" column="location_config_id"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+
+    <select id="queryLocationConfig" resultMap="LocationConfigMap">
+        select
+        <include refid="baseResult"></include>
+        from  `location_config`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="locationConfigId != null">
+                `location_config_id` = #{locationConfigId} and
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.LocationConfig$QueryBuilder) == true">
+                <if test="locationConfigIdList != null">
+                    `location_config_id` in
+                    <foreach collection="locationConfigIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="locationConfigIdSt !=null">
+                    `location_config_id` >= #{locationConfigIdSt} and
+                </if>
+                <if test="locationConfigIdEd!=null">
+                    `location_config_id` &lt;= #{locationConfigIdEd} and
+                </if>
+                <if test="contentList != null">
+                    `content` in
+                    <foreach collection="contentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyContent!=null and fuzzyContent.size()>0">
+                    (
+                    <foreach collection="fuzzyContent"  separator="or" item="item">
+                        `Content` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyContent!=null and rightFuzzyContent.size()>0">
+                    (
+                    <foreach collection="rightFuzzyContent"  separator="or" item="item">
+                        `Content` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryLocationConfigLimit1" resultMap="LocationConfigMap">
+        select
+        <include refid="baseResult"></include>
+        from  `location_config`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="locationConfigId != null">
+                `location_config_id` = #{locationConfigId} and
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.LocationConfig$QueryBuilder) == true">
+                    <if test="locationConfigIdList != null">
+                        `location_config_id` in
+                        <foreach collection="locationConfigIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="locationConfigIdSt !=null">
+                    `location_config_id` >= #{locationConfigIdSt} and
+                </if>
+                <if test="locationConfigIdEd!=null">
+                    `location_config_id` &lt;= #{locationConfigIdEd} and
+                </if>
+                    <if test="contentList != null">
+                        `content` in
+                        <foreach collection="contentList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyContent!=null and fuzzyContent.size()>0">
+                    (
+                    <foreach collection="fuzzyContent"  separator="or" item="item">
+                        `Content` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyContent!=null and rightFuzzyContent.size()>0">
+                    (
+                    <foreach collection="rightFuzzyContent"  separator="or" item="item">
+                        `Content` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `location_config_id`,
+        `content`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.LocationConfig$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.locationConfigId==true">
+                        `location_config_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.content==true">
+                        `content`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.locationConfigId==null">
+                        `location_config_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.content==null">
+                        `content`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.LocationConfig$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

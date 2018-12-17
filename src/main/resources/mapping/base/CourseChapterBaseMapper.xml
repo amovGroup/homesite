@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.CourseChapterBaseMapper">
+
+
+    <insert id="insertCourseChapter"  useGeneratedKeys="true" keyProperty="courseChapterId">
+        INSERT INTO `course_chapter`
+        (
+        <trim suffixOverrides=",">
+                    <if test="courseChapterId!=null">
+                        `course_chapter_id`,
+                    </if>
+                    <if test="courseId!=null">
+                        `course_id`,
+                    </if>
+                    <if test="title!=null">
+                        `title`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="courseChapterId!=null">
+                    #{courseChapterId},
+                </if>
+                <if test="courseId!=null">
+                    #{courseId},
+                </if>
+                <if test="title!=null">
+                    #{title},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateCourseChapter">
+        UPDATE `course_chapter`
+        SET
+        <trim suffixOverrides=",">
+            <if test="courseId != null">
+                `course_id` = #{courseId},
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `course_chapter_id` = #{courseChapterId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `course_chapter`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.courseId != null">
+            `course_id` = #{set.courseId},
+        </if>
+        <if test="set.title != null and set.title!=''">
+            `title` = #{set.title},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.courseChapterIdList != null">
+                    `course_chapter_id` in
+                    <foreach collection="where.courseChapterIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.courseChapterIdSt !=null">
+                `course_chapter_id` >= #{where.courseChapterIdSt} and
+            </if>
+            <if test="where.courseChapterIdEd!=null">
+                `course_chapter_id` &lt;= #{where.courseChapterIdEd} and
+            </if>
+                <if test="where.courseIdList != null">
+                    `course_id` in
+                    <foreach collection="where.courseIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.courseIdSt !=null">
+                `course_id` >= #{where.courseIdSt} and
+            </if>
+            <if test="where.courseIdEd!=null">
+                `course_id` &lt;= #{where.courseIdEd} and
+            </if>
+                <if test="where.titleList != null">
+                    `title` in
+                    <foreach collection="where.titleList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyTitle!=null and where.fuzzyTitle.size()>0">
+                (
+                <foreach collection="where.fuzzyTitle"  separator="or" item="item">
+                    `Title` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyTitle!=null and where.rightFuzzyTitle.size()>0">
+                (
+                <foreach collection="where.rightFuzzyTitle"  separator="or" item="item">
+                    `Title` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.CourseChapter" id="CourseChapterMap">
+        <result property="courseChapterId" column="course_chapter_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="title" column="title"/>
+    </resultMap>
+
+
+    <select id="queryCourseChapter" resultMap="CourseChapterMap">
+        select
+        <include refid="baseResult"></include>
+        from  `course_chapter`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="courseChapterId != null">
+                `course_chapter_id` = #{courseChapterId} and
+            </if>
+            <if test="courseId != null">
+                `course_id` = #{courseId} and
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.CourseChapter$QueryBuilder) == true">
+                <if test="courseChapterIdList != null">
+                    `course_chapter_id` in
+                    <foreach collection="courseChapterIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="courseChapterIdSt !=null">
+                    `course_chapter_id` >= #{courseChapterIdSt} and
+                </if>
+                <if test="courseChapterIdEd!=null">
+                    `course_chapter_id` &lt;= #{courseChapterIdEd} and
+                </if>
+                <if test="courseIdList != null">
+                    `course_id` in
+                    <foreach collection="courseIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="courseIdSt !=null">
+                    `course_id` >= #{courseIdSt} and
+                </if>
+                <if test="courseIdEd!=null">
+                    `course_id` &lt;= #{courseIdEd} and
+                </if>
+                <if test="titleList != null">
+                    `title` in
+                    <foreach collection="titleList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyTitle!=null and fuzzyTitle.size()>0">
+                    (
+                    <foreach collection="fuzzyTitle"  separator="or" item="item">
+                        `Title` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTitle!=null and rightFuzzyTitle.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTitle"  separator="or" item="item">
+                        `Title` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryCourseChapterLimit1" resultMap="CourseChapterMap">
+        select
+        <include refid="baseResult"></include>
+        from  `course_chapter`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="courseChapterId != null">
+                `course_chapter_id` = #{courseChapterId} and
+            </if>
+            <if test="courseId != null">
+                `course_id` = #{courseId} and
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.CourseChapter$QueryBuilder) == true">
+                    <if test="courseChapterIdList != null">
+                        `course_chapter_id` in
+                        <foreach collection="courseChapterIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="courseChapterIdSt !=null">
+                    `course_chapter_id` >= #{courseChapterIdSt} and
+                </if>
+                <if test="courseChapterIdEd!=null">
+                    `course_chapter_id` &lt;= #{courseChapterIdEd} and
+                </if>
+                    <if test="courseIdList != null">
+                        `course_id` in
+                        <foreach collection="courseIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="courseIdSt !=null">
+                    `course_id` >= #{courseIdSt} and
+                </if>
+                <if test="courseIdEd!=null">
+                    `course_id` &lt;= #{courseIdEd} and
+                </if>
+                    <if test="titleList != null">
+                        `title` in
+                        <foreach collection="titleList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyTitle!=null and fuzzyTitle.size()>0">
+                    (
+                    <foreach collection="fuzzyTitle"  separator="or" item="item">
+                        `Title` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTitle!=null and rightFuzzyTitle.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTitle"  separator="or" item="item">
+                        `Title` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `course_chapter_id`,
+        `course_id`,
+        `title`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.CourseChapter$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.courseChapterId==true">
+                        `course_chapter_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.courseId==true">
+                        `course_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.title==true">
+                        `title`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.courseChapterId==null">
+                        `course_chapter_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.courseId==null">
+                        `course_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.title==null">
+                        `title`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.CourseChapter$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

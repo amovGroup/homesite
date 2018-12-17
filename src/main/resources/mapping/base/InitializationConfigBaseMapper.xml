@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.InitializationConfigBaseMapper">
+
+
+    <insert id="insertInitializationConfig"  useGeneratedKeys="true" keyProperty="initializationConfigId">
+        INSERT INTO `initialization_config`
+        (
+        <trim suffixOverrides=",">
+                    <if test="initializationConfigId!=null">
+                        `initialization_config_id`,
+                    </if>
+                    <if test="keyName!=null">
+                        `key_name`,
+                    </if>
+                    <if test="valueName!=null">
+                        `value_name`,
+                    </if>
+                    <if test="content!=null">
+                        `content`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="initializationConfigId!=null">
+                    #{initializationConfigId},
+                </if>
+                <if test="keyName!=null">
+                    #{keyName},
+                </if>
+                <if test="valueName!=null">
+                    #{valueName},
+                </if>
+                <if test="content!=null">
+                    #{content},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateInitializationConfig">
+        UPDATE `initialization_config`
+        SET
+        <trim suffixOverrides=",">
+            <if test="keyName != null and keyName!=''">
+                `key_name` = #{keyName},
+            </if>
+            <if test="valueName != null and valueName!=''">
+                `value_name` = #{valueName},
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `initialization_config_id` = #{initializationConfigId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `initialization_config`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.keyName != null and set.keyName!=''">
+            `key_name` = #{set.keyName},
+        </if>
+        <if test="set.valueName != null and set.valueName!=''">
+            `value_name` = #{set.valueName},
+        </if>
+        <if test="set.content != null and set.content!=''">
+            `content` = #{set.content},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.initializationConfigIdList != null">
+                    `initialization_config_id` in
+                    <foreach collection="where.initializationConfigIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.initializationConfigIdSt !=null">
+                `initialization_config_id` >= #{where.initializationConfigIdSt} and
+            </if>
+            <if test="where.initializationConfigIdEd!=null">
+                `initialization_config_id` &lt;= #{where.initializationConfigIdEd} and
+            </if>
+                <if test="where.keyNameList != null">
+                    `key_name` in
+                    <foreach collection="where.keyNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyKeyName!=null and where.fuzzyKeyName.size()>0">
+                (
+                <foreach collection="where.fuzzyKeyName"  separator="or" item="item">
+                    `Key_name` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyKeyName!=null and where.rightFuzzyKeyName.size()>0">
+                (
+                <foreach collection="where.rightFuzzyKeyName"  separator="or" item="item">
+                    `Key_name` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.valueNameList != null">
+                    `value_name` in
+                    <foreach collection="where.valueNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyValueName!=null and where.fuzzyValueName.size()>0">
+                (
+                <foreach collection="where.fuzzyValueName"  separator="or" item="item">
+                    `Value_name` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyValueName!=null and where.rightFuzzyValueName.size()>0">
+                (
+                <foreach collection="where.rightFuzzyValueName"  separator="or" item="item">
+                    `Value_name` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.contentList != null">
+                    `content` in
+                    <foreach collection="where.contentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyContent!=null and where.fuzzyContent.size()>0">
+                (
+                <foreach collection="where.fuzzyContent"  separator="or" item="item">
+                    `Content` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyContent!=null and where.rightFuzzyContent.size()>0">
+                (
+                <foreach collection="where.rightFuzzyContent"  separator="or" item="item">
+                    `Content` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.InitializationConfig" id="InitializationConfigMap">
+        <result property="initializationConfigId" column="initialization_config_id"/>
+        <result property="keyName" column="key_name"/>
+        <result property="valueName" column="value_name"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+
+    <select id="queryInitializationConfig" resultMap="InitializationConfigMap">
+        select
+        <include refid="baseResult"></include>
+        from  `initialization_config`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="initializationConfigId != null">
+                `initialization_config_id` = #{initializationConfigId} and
+            </if>
+            <if test="keyName != null and keyName!=''">
+                `key_name` = #{keyName} and
+            </if>
+            <if test="valueName != null and valueName!=''">
+                `value_name` = #{valueName} and
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.InitializationConfig$QueryBuilder) == true">
+                <if test="initializationConfigIdList != null">
+                    `initialization_config_id` in
+                    <foreach collection="initializationConfigIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="initializationConfigIdSt !=null">
+                    `initialization_config_id` >= #{initializationConfigIdSt} and
+                </if>
+                <if test="initializationConfigIdEd!=null">
+                    `initialization_config_id` &lt;= #{initializationConfigIdEd} and
+                </if>
+                <if test="keyNameList != null">
+                    `key_name` in
+                    <foreach collection="keyNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyKeyName!=null and fuzzyKeyName.size()>0">
+                    (
+                    <foreach collection="fuzzyKeyName"  separator="or" item="item">
+                        `Key_name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyKeyName!=null and rightFuzzyKeyName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyKeyName"  separator="or" item="item">
+                        `Key_name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="valueNameList != null">
+                    `value_name` in
+                    <foreach collection="valueNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyValueName!=null and fuzzyValueName.size()>0">
+                    (
+                    <foreach collection="fuzzyValueName"  separator="or" item="item">
+                        `Value_name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyValueName!=null and rightFuzzyValueName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyValueName"  separator="or" item="item">
+                        `Value_name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="contentList != null">
+                    `content` in
+                    <foreach collection="contentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyContent!=null and fuzzyContent.size()>0">
+                    (
+                    <foreach collection="fuzzyContent"  separator="or" item="item">
+                        `Content` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyContent!=null and rightFuzzyContent.size()>0">
+                    (
+                    <foreach collection="rightFuzzyContent"  separator="or" item="item">
+                        `Content` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryInitializationConfigLimit1" resultMap="InitializationConfigMap">
+        select
+        <include refid="baseResult"></include>
+        from  `initialization_config`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="initializationConfigId != null">
+                `initialization_config_id` = #{initializationConfigId} and
+            </if>
+            <if test="keyName != null and keyName!=''">
+                `key_name` = #{keyName} and
+            </if>
+            <if test="valueName != null and valueName!=''">
+                `value_name` = #{valueName} and
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.InitializationConfig$QueryBuilder) == true">
+                    <if test="initializationConfigIdList != null">
+                        `initialization_config_id` in
+                        <foreach collection="initializationConfigIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="initializationConfigIdSt !=null">
+                    `initialization_config_id` >= #{initializationConfigIdSt} and
+                </if>
+                <if test="initializationConfigIdEd!=null">
+                    `initialization_config_id` &lt;= #{initializationConfigIdEd} and
+                </if>
+                    <if test="keyNameList != null">
+                        `key_name` in
+                        <foreach collection="keyNameList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyKeyName!=null and fuzzyKeyName.size()>0">
+                    (
+                    <foreach collection="fuzzyKeyName"  separator="or" item="item">
+                        `Key_name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyKeyName!=null and rightFuzzyKeyName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyKeyName"  separator="or" item="item">
+                        `Key_name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="valueNameList != null">
+                        `value_name` in
+                        <foreach collection="valueNameList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyValueName!=null and fuzzyValueName.size()>0">
+                    (
+                    <foreach collection="fuzzyValueName"  separator="or" item="item">
+                        `Value_name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyValueName!=null and rightFuzzyValueName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyValueName"  separator="or" item="item">
+                        `Value_name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="contentList != null">
+                        `content` in
+                        <foreach collection="contentList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyContent!=null and fuzzyContent.size()>0">
+                    (
+                    <foreach collection="fuzzyContent"  separator="or" item="item">
+                        `Content` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyContent!=null and rightFuzzyContent.size()>0">
+                    (
+                    <foreach collection="rightFuzzyContent"  separator="or" item="item">
+                        `Content` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `initialization_config_id`,
+        `key_name`,
+        `value_name`,
+        `content`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.InitializationConfig$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.initializationConfigId==true">
+                        `initialization_config_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.keyName==true">
+                        `key_name`,
+                    </if>
+                    <if test="fetchFields.fetchFields.valueName==true">
+                        `value_name`,
+                    </if>
+                    <if test="fetchFields.fetchFields.content==true">
+                        `content`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.initializationConfigId==null">
+                        `initialization_config_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.keyName==null">
+                        `key_name`,
+                    </if>
+                    <if test="fetchFields.excludeFields.valueName==null">
+                        `value_name`,
+                    </if>
+                    <if test="fetchFields.excludeFields.content==null">
+                        `content`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.InitializationConfig$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

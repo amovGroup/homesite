@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.DifficultyConfigBaseMapper">
+
+
+    <insert id="insertDifficultyConfig"  useGeneratedKeys="true" keyProperty="difficultyConfigId">
+        INSERT INTO `difficulty_config`
+        (
+        <trim suffixOverrides=",">
+                    <if test="difficultyConfigId!=null">
+                        `difficulty_config_id`,
+                    </if>
+                    <if test="content!=null">
+                        `content`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="difficultyConfigId!=null">
+                    #{difficultyConfigId},
+                </if>
+                <if test="content!=null">
+                    #{content},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateDifficultyConfig">
+        UPDATE `difficulty_config`
+        SET
+        <trim suffixOverrides=",">
+            <if test="content != null and content!=''">
+                `content` = #{content},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `difficulty_config_id` = #{difficultyConfigId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `difficulty_config`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.content != null and set.content!=''">
+            `content` = #{set.content},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.difficultyConfigIdList != null">
+                    `difficulty_config_id` in
+                    <foreach collection="where.difficultyConfigIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.difficultyConfigIdSt !=null">
+                `difficulty_config_id` >= #{where.difficultyConfigIdSt} and
+            </if>
+            <if test="where.difficultyConfigIdEd!=null">
+                `difficulty_config_id` &lt;= #{where.difficultyConfigIdEd} and
+            </if>
+                <if test="where.contentList != null">
+                    `content` in
+                    <foreach collection="where.contentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyContent!=null and where.fuzzyContent.size()>0">
+                (
+                <foreach collection="where.fuzzyContent"  separator="or" item="item">
+                    `Content` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyContent!=null and where.rightFuzzyContent.size()>0">
+                (
+                <foreach collection="where.rightFuzzyContent"  separator="or" item="item">
+                    `Content` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.DifficultyConfig" id="DifficultyConfigMap">
+        <result property="difficultyConfigId" column="difficulty_config_id"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+
+    <select id="queryDifficultyConfig" resultMap="DifficultyConfigMap">
+        select
+        <include refid="baseResult"></include>
+        from  `difficulty_config`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="difficultyConfigId != null">
+                `difficulty_config_id` = #{difficultyConfigId} and
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.DifficultyConfig$QueryBuilder) == true">
+                <if test="difficultyConfigIdList != null">
+                    `difficulty_config_id` in
+                    <foreach collection="difficultyConfigIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="difficultyConfigIdSt !=null">
+                    `difficulty_config_id` >= #{difficultyConfigIdSt} and
+                </if>
+                <if test="difficultyConfigIdEd!=null">
+                    `difficulty_config_id` &lt;= #{difficultyConfigIdEd} and
+                </if>
+                <if test="contentList != null">
+                    `content` in
+                    <foreach collection="contentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyContent!=null and fuzzyContent.size()>0">
+                    (
+                    <foreach collection="fuzzyContent"  separator="or" item="item">
+                        `Content` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyContent!=null and rightFuzzyContent.size()>0">
+                    (
+                    <foreach collection="rightFuzzyContent"  separator="or" item="item">
+                        `Content` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryDifficultyConfigLimit1" resultMap="DifficultyConfigMap">
+        select
+        <include refid="baseResult"></include>
+        from  `difficulty_config`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="difficultyConfigId != null">
+                `difficulty_config_id` = #{difficultyConfigId} and
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.DifficultyConfig$QueryBuilder) == true">
+                    <if test="difficultyConfigIdList != null">
+                        `difficulty_config_id` in
+                        <foreach collection="difficultyConfigIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="difficultyConfigIdSt !=null">
+                    `difficulty_config_id` >= #{difficultyConfigIdSt} and
+                </if>
+                <if test="difficultyConfigIdEd!=null">
+                    `difficulty_config_id` &lt;= #{difficultyConfigIdEd} and
+                </if>
+                    <if test="contentList != null">
+                        `content` in
+                        <foreach collection="contentList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyContent!=null and fuzzyContent.size()>0">
+                    (
+                    <foreach collection="fuzzyContent"  separator="or" item="item">
+                        `Content` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyContent!=null and rightFuzzyContent.size()>0">
+                    (
+                    <foreach collection="rightFuzzyContent"  separator="or" item="item">
+                        `Content` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `difficulty_config_id`,
+        `content`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.DifficultyConfig$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.difficultyConfigId==true">
+                        `difficulty_config_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.content==true">
+                        `content`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.difficultyConfigId==null">
+                        `difficulty_config_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.content==null">
+                        `content`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.DifficultyConfig$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

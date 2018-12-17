@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.CourseStatisticBaseMapper">
+
+
+    <insert id="insertCourseStatistic"  useGeneratedKeys="true" keyProperty="courseStatisticId">
+        INSERT INTO `course_statistic`
+        (
+        <trim suffixOverrides=",">
+                    <if test="courseStatisticId!=null">
+                        `course_statistic_id`,
+                    </if>
+                    <if test="courseId!=null">
+                        `course_id`,
+                    </if>
+                    <if test="pageView!=null">
+                        `page_view`,
+                    </if>
+                    <if test="uniqueVisitor!=null">
+                        `unique_visitor`,
+                    </if>
+                    <if test="purchaseQuantity!=null">
+                        `purchase_quantity`,
+                    </if>
+                    <if test="internetProtocol!=null">
+                        `internet_protocol`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="courseStatisticId!=null">
+                    #{courseStatisticId},
+                </if>
+                <if test="courseId!=null">
+                    #{courseId},
+                </if>
+                <if test="pageView!=null">
+                    #{pageView},
+                </if>
+                <if test="uniqueVisitor!=null">
+                    #{uniqueVisitor},
+                </if>
+                <if test="purchaseQuantity!=null">
+                    #{purchaseQuantity},
+                </if>
+                <if test="internetProtocol!=null">
+                    #{internetProtocol},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateCourseStatistic">
+        UPDATE `course_statistic`
+        SET
+        <trim suffixOverrides=",">
+            <if test="courseId != null">
+                `course_id` = #{courseId},
+            </if>
+            <if test="pageView != null">
+                `page_view` = #{pageView},
+            </if>
+            <if test="uniqueVisitor != null">
+                `unique_visitor` = #{uniqueVisitor},
+            </if>
+            <if test="purchaseQuantity != null">
+                `purchase_quantity` = #{purchaseQuantity},
+            </if>
+            <if test="internetProtocol != null">
+                `internet_protocol` = #{internetProtocol},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `course_statistic_id` = #{courseStatisticId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `course_statistic`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.courseId != null">
+            `course_id` = #{set.courseId},
+        </if>
+        <if test="set.pageView != null">
+            `page_view` = #{set.pageView},
+        </if>
+        <if test="set.uniqueVisitor != null">
+            `unique_visitor` = #{set.uniqueVisitor},
+        </if>
+        <if test="set.purchaseQuantity != null">
+            `purchase_quantity` = #{set.purchaseQuantity},
+        </if>
+        <if test="set.internetProtocol != null">
+            `internet_protocol` = #{set.internetProtocol},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.courseStatisticIdList != null">
+                    `course_statistic_id` in
+                    <foreach collection="where.courseStatisticIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.courseStatisticIdSt !=null">
+                `course_statistic_id` >= #{where.courseStatisticIdSt} and
+            </if>
+            <if test="where.courseStatisticIdEd!=null">
+                `course_statistic_id` &lt;= #{where.courseStatisticIdEd} and
+            </if>
+                <if test="where.courseIdList != null">
+                    `course_id` in
+                    <foreach collection="where.courseIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.courseIdSt !=null">
+                `course_id` >= #{where.courseIdSt} and
+            </if>
+            <if test="where.courseIdEd!=null">
+                `course_id` &lt;= #{where.courseIdEd} and
+            </if>
+                <if test="where.pageViewList != null">
+                    `page_view` in
+                    <foreach collection="where.pageViewList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.pageViewSt !=null">
+                `page_view` >= #{where.pageViewSt} and
+            </if>
+            <if test="where.pageViewEd!=null">
+                `page_view` &lt;= #{where.pageViewEd} and
+            </if>
+                <if test="where.uniqueVisitorList != null">
+                    `unique_visitor` in
+                    <foreach collection="where.uniqueVisitorList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.uniqueVisitorSt !=null">
+                `unique_visitor` >= #{where.uniqueVisitorSt} and
+            </if>
+            <if test="where.uniqueVisitorEd!=null">
+                `unique_visitor` &lt;= #{where.uniqueVisitorEd} and
+            </if>
+                <if test="where.purchaseQuantityList != null">
+                    `purchase_quantity` in
+                    <foreach collection="where.purchaseQuantityList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.purchaseQuantitySt !=null">
+                `purchase_quantity` >= #{where.purchaseQuantitySt} and
+            </if>
+            <if test="where.purchaseQuantityEd!=null">
+                `purchase_quantity` &lt;= #{where.purchaseQuantityEd} and
+            </if>
+                <if test="where.internetProtocolList != null">
+                    `internet_protocol` in
+                    <foreach collection="where.internetProtocolList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.internetProtocolSt !=null">
+                `internet_protocol` >= #{where.internetProtocolSt} and
+            </if>
+            <if test="where.internetProtocolEd!=null">
+                `internet_protocol` &lt;= #{where.internetProtocolEd} and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.CourseStatistic" id="CourseStatisticMap">
+        <result property="courseStatisticId" column="course_statistic_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="pageView" column="page_view"/>
+        <result property="uniqueVisitor" column="unique_visitor"/>
+        <result property="purchaseQuantity" column="purchase_quantity"/>
+        <result property="internetProtocol" column="internet_protocol"/>
+    </resultMap>
+
+
+    <select id="queryCourseStatistic" resultMap="CourseStatisticMap">
+        select
+        <include refid="baseResult"></include>
+        from  `course_statistic`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="courseStatisticId != null">
+                `course_statistic_id` = #{courseStatisticId} and
+            </if>
+            <if test="courseId != null">
+                `course_id` = #{courseId} and
+            </if>
+            <if test="pageView != null">
+                `page_view` = #{pageView} and
+            </if>
+            <if test="uniqueVisitor != null">
+                `unique_visitor` = #{uniqueVisitor} and
+            </if>
+            <if test="purchaseQuantity != null">
+                `purchase_quantity` = #{purchaseQuantity} and
+            </if>
+            <if test="internetProtocol != null">
+                `internet_protocol` = #{internetProtocol} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.CourseStatistic$QueryBuilder) == true">
+                <if test="courseStatisticIdList != null">
+                    `course_statistic_id` in
+                    <foreach collection="courseStatisticIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="courseStatisticIdSt !=null">
+                    `course_statistic_id` >= #{courseStatisticIdSt} and
+                </if>
+                <if test="courseStatisticIdEd!=null">
+                    `course_statistic_id` &lt;= #{courseStatisticIdEd} and
+                </if>
+                <if test="courseIdList != null">
+                    `course_id` in
+                    <foreach collection="courseIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="courseIdSt !=null">
+                    `course_id` >= #{courseIdSt} and
+                </if>
+                <if test="courseIdEd!=null">
+                    `course_id` &lt;= #{courseIdEd} and
+                </if>
+                <if test="pageViewList != null">
+                    `page_view` in
+                    <foreach collection="pageViewList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="pageViewSt !=null">
+                    `page_view` >= #{pageViewSt} and
+                </if>
+                <if test="pageViewEd!=null">
+                    `page_view` &lt;= #{pageViewEd} and
+                </if>
+                <if test="uniqueVisitorList != null">
+                    `unique_visitor` in
+                    <foreach collection="uniqueVisitorList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="uniqueVisitorSt !=null">
+                    `unique_visitor` >= #{uniqueVisitorSt} and
+                </if>
+                <if test="uniqueVisitorEd!=null">
+                    `unique_visitor` &lt;= #{uniqueVisitorEd} and
+                </if>
+                <if test="purchaseQuantityList != null">
+                    `purchase_quantity` in
+                    <foreach collection="purchaseQuantityList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="purchaseQuantitySt !=null">
+                    `purchase_quantity` >= #{purchaseQuantitySt} and
+                </if>
+                <if test="purchaseQuantityEd!=null">
+                    `purchase_quantity` &lt;= #{purchaseQuantityEd} and
+                </if>
+                <if test="internetProtocolList != null">
+                    `internet_protocol` in
+                    <foreach collection="internetProtocolList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="internetProtocolSt !=null">
+                    `internet_protocol` >= #{internetProtocolSt} and
+                </if>
+                <if test="internetProtocolEd!=null">
+                    `internet_protocol` &lt;= #{internetProtocolEd} and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryCourseStatisticLimit1" resultMap="CourseStatisticMap">
+        select
+        <include refid="baseResult"></include>
+        from  `course_statistic`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="courseStatisticId != null">
+                `course_statistic_id` = #{courseStatisticId} and
+            </if>
+            <if test="courseId != null">
+                `course_id` = #{courseId} and
+            </if>
+            <if test="pageView != null">
+                `page_view` = #{pageView} and
+            </if>
+            <if test="uniqueVisitor != null">
+                `unique_visitor` = #{uniqueVisitor} and
+            </if>
+            <if test="purchaseQuantity != null">
+                `purchase_quantity` = #{purchaseQuantity} and
+            </if>
+            <if test="internetProtocol != null">
+                `internet_protocol` = #{internetProtocol} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.CourseStatistic$QueryBuilder) == true">
+                    <if test="courseStatisticIdList != null">
+                        `course_statistic_id` in
+                        <foreach collection="courseStatisticIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="courseStatisticIdSt !=null">
+                    `course_statistic_id` >= #{courseStatisticIdSt} and
+                </if>
+                <if test="courseStatisticIdEd!=null">
+                    `course_statistic_id` &lt;= #{courseStatisticIdEd} and
+                </if>
+                    <if test="courseIdList != null">
+                        `course_id` in
+                        <foreach collection="courseIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="courseIdSt !=null">
+                    `course_id` >= #{courseIdSt} and
+                </if>
+                <if test="courseIdEd!=null">
+                    `course_id` &lt;= #{courseIdEd} and
+                </if>
+                    <if test="pageViewList != null">
+                        `page_view` in
+                        <foreach collection="pageViewList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="pageViewSt !=null">
+                    `page_view` >= #{pageViewSt} and
+                </if>
+                <if test="pageViewEd!=null">
+                    `page_view` &lt;= #{pageViewEd} and
+                </if>
+                    <if test="uniqueVisitorList != null">
+                        `unique_visitor` in
+                        <foreach collection="uniqueVisitorList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="uniqueVisitorSt !=null">
+                    `unique_visitor` >= #{uniqueVisitorSt} and
+                </if>
+                <if test="uniqueVisitorEd!=null">
+                    `unique_visitor` &lt;= #{uniqueVisitorEd} and
+                </if>
+                    <if test="purchaseQuantityList != null">
+                        `purchase_quantity` in
+                        <foreach collection="purchaseQuantityList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="purchaseQuantitySt !=null">
+                    `purchase_quantity` >= #{purchaseQuantitySt} and
+                </if>
+                <if test="purchaseQuantityEd!=null">
+                    `purchase_quantity` &lt;= #{purchaseQuantityEd} and
+                </if>
+                    <if test="internetProtocolList != null">
+                        `internet_protocol` in
+                        <foreach collection="internetProtocolList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="internetProtocolSt !=null">
+                    `internet_protocol` >= #{internetProtocolSt} and
+                </if>
+                <if test="internetProtocolEd!=null">
+                    `internet_protocol` &lt;= #{internetProtocolEd} and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `course_statistic_id`,
+        `course_id`,
+        `page_view`,
+        `unique_visitor`,
+        `purchase_quantity`,
+        `internet_protocol`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.CourseStatistic$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.courseStatisticId==true">
+                        `course_statistic_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.courseId==true">
+                        `course_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.pageView==true">
+                        `page_view`,
+                    </if>
+                    <if test="fetchFields.fetchFields.uniqueVisitor==true">
+                        `unique_visitor`,
+                    </if>
+                    <if test="fetchFields.fetchFields.purchaseQuantity==true">
+                        `purchase_quantity`,
+                    </if>
+                    <if test="fetchFields.fetchFields.internetProtocol==true">
+                        `internet_protocol`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.courseStatisticId==null">
+                        `course_statistic_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.courseId==null">
+                        `course_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.pageView==null">
+                        `page_view`,
+                    </if>
+                    <if test="fetchFields.excludeFields.uniqueVisitor==null">
+                        `unique_visitor`,
+                    </if>
+                    <if test="fetchFields.excludeFields.purchaseQuantity==null">
+                        `purchase_quantity`,
+                    </if>
+                    <if test="fetchFields.excludeFields.internetProtocol==null">
+                        `internet_protocol`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.CourseStatistic$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

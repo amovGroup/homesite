@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.CourseInfoBaseMapper">
+
+
+    <insert id="insertCourseInfo"  useGeneratedKeys="true" keyProperty="courseInfoId">
+        INSERT INTO `course_info`
+        (
+        <trim suffixOverrides=",">
+                    <if test="courseInfoId!=null">
+                        `course_info_id`,
+                    </if>
+                    <if test="courseId!=null">
+                        `course_id`,
+                    </if>
+                    <if test="courseUrl!=null">
+                        `course_url`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="courseInfoId!=null">
+                    #{courseInfoId},
+                </if>
+                <if test="courseId!=null">
+                    #{courseId},
+                </if>
+                <if test="courseUrl!=null">
+                    #{courseUrl},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateCourseInfo">
+        UPDATE `course_info`
+        SET
+        <trim suffixOverrides=",">
+            <if test="courseId != null">
+                `course_id` = #{courseId},
+            </if>
+            <if test="courseUrl != null and courseUrl!=''">
+                `course_url` = #{courseUrl},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `course_info_id` = #{courseInfoId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `course_info`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.courseId != null">
+            `course_id` = #{set.courseId},
+        </if>
+        <if test="set.courseUrl != null and set.courseUrl!=''">
+            `course_url` = #{set.courseUrl},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.courseInfoIdList != null">
+                    `course_info_id` in
+                    <foreach collection="where.courseInfoIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.courseInfoIdSt !=null">
+                `course_info_id` >= #{where.courseInfoIdSt} and
+            </if>
+            <if test="where.courseInfoIdEd!=null">
+                `course_info_id` &lt;= #{where.courseInfoIdEd} and
+            </if>
+                <if test="where.courseIdList != null">
+                    `course_id` in
+                    <foreach collection="where.courseIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.courseIdSt !=null">
+                `course_id` >= #{where.courseIdSt} and
+            </if>
+            <if test="where.courseIdEd!=null">
+                `course_id` &lt;= #{where.courseIdEd} and
+            </if>
+                <if test="where.courseUrlList != null">
+                    `course_url` in
+                    <foreach collection="where.courseUrlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyCourseUrl!=null and where.fuzzyCourseUrl.size()>0">
+                (
+                <foreach collection="where.fuzzyCourseUrl"  separator="or" item="item">
+                    `Course_url` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyCourseUrl!=null and where.rightFuzzyCourseUrl.size()>0">
+                (
+                <foreach collection="where.rightFuzzyCourseUrl"  separator="or" item="item">
+                    `Course_url` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.CourseInfo" id="CourseInfoMap">
+        <result property="courseInfoId" column="course_info_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="courseUrl" column="course_url"/>
+    </resultMap>
+
+
+    <select id="queryCourseInfo" resultMap="CourseInfoMap">
+        select
+        <include refid="baseResult"></include>
+        from  `course_info`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="courseInfoId != null">
+                `course_info_id` = #{courseInfoId} and
+            </if>
+            <if test="courseId != null">
+                `course_id` = #{courseId} and
+            </if>
+            <if test="courseUrl != null and courseUrl!=''">
+                `course_url` = #{courseUrl} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.CourseInfo$QueryBuilder) == true">
+                <if test="courseInfoIdList != null">
+                    `course_info_id` in
+                    <foreach collection="courseInfoIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="courseInfoIdSt !=null">
+                    `course_info_id` >= #{courseInfoIdSt} and
+                </if>
+                <if test="courseInfoIdEd!=null">
+                    `course_info_id` &lt;= #{courseInfoIdEd} and
+                </if>
+                <if test="courseIdList != null">
+                    `course_id` in
+                    <foreach collection="courseIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="courseIdSt !=null">
+                    `course_id` >= #{courseIdSt} and
+                </if>
+                <if test="courseIdEd!=null">
+                    `course_id` &lt;= #{courseIdEd} and
+                </if>
+                <if test="courseUrlList != null">
+                    `course_url` in
+                    <foreach collection="courseUrlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyCourseUrl!=null and fuzzyCourseUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyCourseUrl"  separator="or" item="item">
+                        `Course_url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyCourseUrl!=null and rightFuzzyCourseUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyCourseUrl"  separator="or" item="item">
+                        `Course_url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryCourseInfoLimit1" resultMap="CourseInfoMap">
+        select
+        <include refid="baseResult"></include>
+        from  `course_info`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="courseInfoId != null">
+                `course_info_id` = #{courseInfoId} and
+            </if>
+            <if test="courseId != null">
+                `course_id` = #{courseId} and
+            </if>
+            <if test="courseUrl != null and courseUrl!=''">
+                `course_url` = #{courseUrl} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.CourseInfo$QueryBuilder) == true">
+                    <if test="courseInfoIdList != null">
+                        `course_info_id` in
+                        <foreach collection="courseInfoIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="courseInfoIdSt !=null">
+                    `course_info_id` >= #{courseInfoIdSt} and
+                </if>
+                <if test="courseInfoIdEd!=null">
+                    `course_info_id` &lt;= #{courseInfoIdEd} and
+                </if>
+                    <if test="courseIdList != null">
+                        `course_id` in
+                        <foreach collection="courseIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="courseIdSt !=null">
+                    `course_id` >= #{courseIdSt} and
+                </if>
+                <if test="courseIdEd!=null">
+                    `course_id` &lt;= #{courseIdEd} and
+                </if>
+                    <if test="courseUrlList != null">
+                        `course_url` in
+                        <foreach collection="courseUrlList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyCourseUrl!=null and fuzzyCourseUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyCourseUrl"  separator="or" item="item">
+                        `Course_url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyCourseUrl!=null and rightFuzzyCourseUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyCourseUrl"  separator="or" item="item">
+                        `Course_url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `course_info_id`,
+        `course_id`,
+        `course_url`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.CourseInfo$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.courseInfoId==true">
+                        `course_info_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.courseId==true">
+                        `course_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.courseUrl==true">
+                        `course_url`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.courseInfoId==null">
+                        `course_info_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.courseId==null">
+                        `course_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.courseUrl==null">
+                        `course_url`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.CourseInfo$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

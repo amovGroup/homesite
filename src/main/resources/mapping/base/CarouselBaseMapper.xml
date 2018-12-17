@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.CarouselBaseMapper">
+
+
+    <insert id="insertCarousel"  useGeneratedKeys="true" keyProperty="carouselId">
+        INSERT INTO `carousel`
+        (
+        <trim suffixOverrides=",">
+                    <if test="carouselId!=null">
+                        `carousel_id`,
+                    </if>
+                    <if test="imageUrl!=null">
+                        `image_url`,
+                    </if>
+                    <if test="location!=null">
+                        `location`,
+                    </if>
+                    <if test="title!=null">
+                        `title`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="carouselId!=null">
+                    #{carouselId},
+                </if>
+                <if test="imageUrl!=null">
+                    #{imageUrl},
+                </if>
+                <if test="location!=null">
+                    #{location},
+                </if>
+                <if test="title!=null">
+                    #{title},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateCarousel">
+        UPDATE `carousel`
+        SET
+        <trim suffixOverrides=",">
+            <if test="imageUrl != null and imageUrl!=''">
+                `image_url` = #{imageUrl},
+            </if>
+            <if test="location != null">
+                `location` = #{location},
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `carousel_id` = #{carouselId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `carousel`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.imageUrl != null and set.imageUrl!=''">
+            `image_url` = #{set.imageUrl},
+        </if>
+        <if test="set.location != null">
+            `location` = #{set.location},
+        </if>
+        <if test="set.title != null and set.title!=''">
+            `title` = #{set.title},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.carouselIdList != null">
+                    `carousel_id` in
+                    <foreach collection="where.carouselIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.carouselIdSt !=null">
+                `carousel_id` >= #{where.carouselIdSt} and
+            </if>
+            <if test="where.carouselIdEd!=null">
+                `carousel_id` &lt;= #{where.carouselIdEd} and
+            </if>
+                <if test="where.imageUrlList != null">
+                    `image_url` in
+                    <foreach collection="where.imageUrlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyImageUrl!=null and where.fuzzyImageUrl.size()>0">
+                (
+                <foreach collection="where.fuzzyImageUrl"  separator="or" item="item">
+                    `Image_url` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyImageUrl!=null and where.rightFuzzyImageUrl.size()>0">
+                (
+                <foreach collection="where.rightFuzzyImageUrl"  separator="or" item="item">
+                    `Image_url` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.locationList != null">
+                    `location` in
+                    <foreach collection="where.locationList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.locationSt !=null">
+                `location` >= #{where.locationSt} and
+            </if>
+            <if test="where.locationEd!=null">
+                `location` &lt;= #{where.locationEd} and
+            </if>
+                <if test="where.titleList != null">
+                    `title` in
+                    <foreach collection="where.titleList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyTitle!=null and where.fuzzyTitle.size()>0">
+                (
+                <foreach collection="where.fuzzyTitle"  separator="or" item="item">
+                    `Title` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyTitle!=null and where.rightFuzzyTitle.size()>0">
+                (
+                <foreach collection="where.rightFuzzyTitle"  separator="or" item="item">
+                    `Title` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.Carousel" id="CarouselMap">
+        <result property="carouselId" column="carousel_id"/>
+        <result property="imageUrl" column="image_url"/>
+        <result property="location" column="location"/>
+        <result property="title" column="title"/>
+    </resultMap>
+
+
+    <select id="queryCarousel" resultMap="CarouselMap">
+        select
+        <include refid="baseResult"></include>
+        from  `carousel`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="carouselId != null">
+                `carousel_id` = #{carouselId} and
+            </if>
+            <if test="imageUrl != null and imageUrl!=''">
+                `image_url` = #{imageUrl} and
+            </if>
+            <if test="location != null">
+                `location` = #{location} and
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.Carousel$QueryBuilder) == true">
+                <if test="carouselIdList != null">
+                    `carousel_id` in
+                    <foreach collection="carouselIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="carouselIdSt !=null">
+                    `carousel_id` >= #{carouselIdSt} and
+                </if>
+                <if test="carouselIdEd!=null">
+                    `carousel_id` &lt;= #{carouselIdEd} and
+                </if>
+                <if test="imageUrlList != null">
+                    `image_url` in
+                    <foreach collection="imageUrlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyImageUrl!=null and fuzzyImageUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyImageUrl"  separator="or" item="item">
+                        `Image_url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyImageUrl!=null and rightFuzzyImageUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyImageUrl"  separator="or" item="item">
+                        `Image_url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="locationList != null">
+                    `location` in
+                    <foreach collection="locationList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="locationSt !=null">
+                    `location` >= #{locationSt} and
+                </if>
+                <if test="locationEd!=null">
+                    `location` &lt;= #{locationEd} and
+                </if>
+                <if test="titleList != null">
+                    `title` in
+                    <foreach collection="titleList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyTitle!=null and fuzzyTitle.size()>0">
+                    (
+                    <foreach collection="fuzzyTitle"  separator="or" item="item">
+                        `Title` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTitle!=null and rightFuzzyTitle.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTitle"  separator="or" item="item">
+                        `Title` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryCarouselLimit1" resultMap="CarouselMap">
+        select
+        <include refid="baseResult"></include>
+        from  `carousel`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="carouselId != null">
+                `carousel_id` = #{carouselId} and
+            </if>
+            <if test="imageUrl != null and imageUrl!=''">
+                `image_url` = #{imageUrl} and
+            </if>
+            <if test="location != null">
+                `location` = #{location} and
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.Carousel$QueryBuilder) == true">
+                    <if test="carouselIdList != null">
+                        `carousel_id` in
+                        <foreach collection="carouselIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="carouselIdSt !=null">
+                    `carousel_id` >= #{carouselIdSt} and
+                </if>
+                <if test="carouselIdEd!=null">
+                    `carousel_id` &lt;= #{carouselIdEd} and
+                </if>
+                    <if test="imageUrlList != null">
+                        `image_url` in
+                        <foreach collection="imageUrlList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyImageUrl!=null and fuzzyImageUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyImageUrl"  separator="or" item="item">
+                        `Image_url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyImageUrl!=null and rightFuzzyImageUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyImageUrl"  separator="or" item="item">
+                        `Image_url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="locationList != null">
+                        `location` in
+                        <foreach collection="locationList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="locationSt !=null">
+                    `location` >= #{locationSt} and
+                </if>
+                <if test="locationEd!=null">
+                    `location` &lt;= #{locationEd} and
+                </if>
+                    <if test="titleList != null">
+                        `title` in
+                        <foreach collection="titleList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyTitle!=null and fuzzyTitle.size()>0">
+                    (
+                    <foreach collection="fuzzyTitle"  separator="or" item="item">
+                        `Title` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTitle!=null and rightFuzzyTitle.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTitle"  separator="or" item="item">
+                        `Title` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `carousel_id`,
+        `image_url`,
+        `location`,
+        `title`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.Carousel$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.carouselId==true">
+                        `carousel_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.imageUrl==true">
+                        `image_url`,
+                    </if>
+                    <if test="fetchFields.fetchFields.location==true">
+                        `location`,
+                    </if>
+                    <if test="fetchFields.fetchFields.title==true">
+                        `title`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.carouselId==null">
+                        `carousel_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.imageUrl==null">
+                        `image_url`,
+                    </if>
+                    <if test="fetchFields.excludeFields.location==null">
+                        `location`,
+                    </if>
+                    <if test="fetchFields.excludeFields.title==null">
+                        `title`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.Carousel$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.teacherBaseMapper">
+
+
+    <insert id="insertteacher"  useGeneratedKeys="true" keyProperty="teacherId">
+        INSERT INTO `teacher`
+        (
+        <trim suffixOverrides=",">
+                    <if test="teacherId!=null">
+                        `teacher_id`,
+                    </if>
+                    <if test="name!=null">
+                        `name`,
+                    </if>
+                    <if test="intro!=null">
+                        `intro`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="teacherId!=null">
+                    #{teacherId},
+                </if>
+                <if test="name!=null">
+                    #{name},
+                </if>
+                <if test="intro!=null">
+                    #{intro},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateteacher">
+        UPDATE `teacher`
+        SET
+        <trim suffixOverrides=",">
+            <if test="name != null and name!=''">
+                `name` = #{name},
+            </if>
+            <if test="intro != null and intro!=''">
+                `intro` = #{intro},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `teacher_id` = #{teacherId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `teacher`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.name != null and set.name!=''">
+            `name` = #{set.name},
+        </if>
+        <if test="set.intro != null and set.intro!=''">
+            `intro` = #{set.intro},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.teacherIdList != null">
+                    `teacher_id` in
+                    <foreach collection="where.teacherIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.teacherIdSt !=null">
+                `teacher_id` >= #{where.teacherIdSt} and
+            </if>
+            <if test="where.teacherIdEd!=null">
+                `teacher_id` &lt;= #{where.teacherIdEd} and
+            </if>
+                <if test="where.nameList != null">
+                    `name` in
+                    <foreach collection="where.nameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyName!=null and where.fuzzyName.size()>0">
+                (
+                <foreach collection="where.fuzzyName"  separator="or" item="item">
+                    `Name` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyName!=null and where.rightFuzzyName.size()>0">
+                (
+                <foreach collection="where.rightFuzzyName"  separator="or" item="item">
+                    `Name` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.introList != null">
+                    `intro` in
+                    <foreach collection="where.introList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyIntro!=null and where.fuzzyIntro.size()>0">
+                (
+                <foreach collection="where.fuzzyIntro"  separator="or" item="item">
+                    `Intro` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyIntro!=null and where.rightFuzzyIntro.size()>0">
+                (
+                <foreach collection="where.rightFuzzyIntro"  separator="or" item="item">
+                    `Intro` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.teacher" id="teacherMap">
+        <result property="teacherId" column="teacher_id"/>
+        <result property="name" column="name"/>
+        <result property="intro" column="intro"/>
+    </resultMap>
+
+
+    <select id="queryteacher" resultMap="teacherMap">
+        select
+        <include refid="baseResult"></include>
+        from  `teacher`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="teacherId != null">
+                `teacher_id` = #{teacherId} and
+            </if>
+            <if test="name != null and name!=''">
+                `name` = #{name} and
+            </if>
+            <if test="intro != null and intro!=''">
+                `intro` = #{intro} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.teacher$QueryBuilder) == true">
+                <if test="teacherIdList != null">
+                    `teacher_id` in
+                    <foreach collection="teacherIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="teacherIdSt !=null">
+                    `teacher_id` >= #{teacherIdSt} and
+                </if>
+                <if test="teacherIdEd!=null">
+                    `teacher_id` &lt;= #{teacherIdEd} and
+                </if>
+                <if test="nameList != null">
+                    `name` in
+                    <foreach collection="nameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyName!=null and fuzzyName.size()>0">
+                    (
+                    <foreach collection="fuzzyName"  separator="or" item="item">
+                        `Name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyName!=null and rightFuzzyName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyName"  separator="or" item="item">
+                        `Name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="introList != null">
+                    `intro` in
+                    <foreach collection="introList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyIntro!=null and fuzzyIntro.size()>0">
+                    (
+                    <foreach collection="fuzzyIntro"  separator="or" item="item">
+                        `Intro` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyIntro!=null and rightFuzzyIntro.size()>0">
+                    (
+                    <foreach collection="rightFuzzyIntro"  separator="or" item="item">
+                        `Intro` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryteacherLimit1" resultMap="teacherMap">
+        select
+        <include refid="baseResult"></include>
+        from  `teacher`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="teacherId != null">
+                `teacher_id` = #{teacherId} and
+            </if>
+            <if test="name != null and name!=''">
+                `name` = #{name} and
+            </if>
+            <if test="intro != null and intro!=''">
+                `intro` = #{intro} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.teacher$QueryBuilder) == true">
+                    <if test="teacherIdList != null">
+                        `teacher_id` in
+                        <foreach collection="teacherIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="teacherIdSt !=null">
+                    `teacher_id` >= #{teacherIdSt} and
+                </if>
+                <if test="teacherIdEd!=null">
+                    `teacher_id` &lt;= #{teacherIdEd} and
+                </if>
+                    <if test="nameList != null">
+                        `name` in
+                        <foreach collection="nameList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyName!=null and fuzzyName.size()>0">
+                    (
+                    <foreach collection="fuzzyName"  separator="or" item="item">
+                        `Name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyName!=null and rightFuzzyName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyName"  separator="or" item="item">
+                        `Name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="introList != null">
+                        `intro` in
+                        <foreach collection="introList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyIntro!=null and fuzzyIntro.size()>0">
+                    (
+                    <foreach collection="fuzzyIntro"  separator="or" item="item">
+                        `Intro` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyIntro!=null and rightFuzzyIntro.size()>0">
+                    (
+                    <foreach collection="rightFuzzyIntro"  separator="or" item="item">
+                        `Intro` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `teacher_id`,
+        `name`,
+        `intro`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.teacher$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.teacherId==true">
+                        `teacher_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.name==true">
+                        `name`,
+                    </if>
+                    <if test="fetchFields.fetchFields.intro==true">
+                        `intro`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.teacherId==null">
+                        `teacher_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.name==null">
+                        `name`,
+                    </if>
+                    <if test="fetchFields.excludeFields.intro==null">
+                        `intro`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.teacher$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

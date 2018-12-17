@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.ClassifyConfigBaseMapper">
+
+
+    <insert id="insertClassifyConfig"  useGeneratedKeys="true" keyProperty="classifyConfigId">
+        INSERT INTO `classify_config`
+        (
+        <trim suffixOverrides=",">
+                    <if test="classifyConfigId!=null">
+                        `classify_config_id`,
+                    </if>
+                    <if test="content!=null">
+                        `content`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="classifyConfigId!=null">
+                    #{classifyConfigId},
+                </if>
+                <if test="content!=null">
+                    #{content},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateClassifyConfig">
+        UPDATE `classify_config`
+        SET
+        <trim suffixOverrides=",">
+            <if test="content != null and content!=''">
+                `content` = #{content},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `classify_config_id` = #{classifyConfigId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `classify_config`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.content != null and set.content!=''">
+            `content` = #{set.content},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.classifyConfigIdList != null">
+                    `classify_config_id` in
+                    <foreach collection="where.classifyConfigIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.classifyConfigIdSt !=null">
+                `classify_config_id` >= #{where.classifyConfigIdSt} and
+            </if>
+            <if test="where.classifyConfigIdEd!=null">
+                `classify_config_id` &lt;= #{where.classifyConfigIdEd} and
+            </if>
+                <if test="where.contentList != null">
+                    `content` in
+                    <foreach collection="where.contentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyContent!=null and where.fuzzyContent.size()>0">
+                (
+                <foreach collection="where.fuzzyContent"  separator="or" item="item">
+                    `Content` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyContent!=null and where.rightFuzzyContent.size()>0">
+                (
+                <foreach collection="where.rightFuzzyContent"  separator="or" item="item">
+                    `Content` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.ClassifyConfig" id="ClassifyConfigMap">
+        <result property="classifyConfigId" column="classify_config_id"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+
+    <select id="queryClassifyConfig" resultMap="ClassifyConfigMap">
+        select
+        <include refid="baseResult"></include>
+        from  `classify_config`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="classifyConfigId != null">
+                `classify_config_id` = #{classifyConfigId} and
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.ClassifyConfig$QueryBuilder) == true">
+                <if test="classifyConfigIdList != null">
+                    `classify_config_id` in
+                    <foreach collection="classifyConfigIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="classifyConfigIdSt !=null">
+                    `classify_config_id` >= #{classifyConfigIdSt} and
+                </if>
+                <if test="classifyConfigIdEd!=null">
+                    `classify_config_id` &lt;= #{classifyConfigIdEd} and
+                </if>
+                <if test="contentList != null">
+                    `content` in
+                    <foreach collection="contentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyContent!=null and fuzzyContent.size()>0">
+                    (
+                    <foreach collection="fuzzyContent"  separator="or" item="item">
+                        `Content` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyContent!=null and rightFuzzyContent.size()>0">
+                    (
+                    <foreach collection="rightFuzzyContent"  separator="or" item="item">
+                        `Content` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryClassifyConfigLimit1" resultMap="ClassifyConfigMap">
+        select
+        <include refid="baseResult"></include>
+        from  `classify_config`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="classifyConfigId != null">
+                `classify_config_id` = #{classifyConfigId} and
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.ClassifyConfig$QueryBuilder) == true">
+                    <if test="classifyConfigIdList != null">
+                        `classify_config_id` in
+                        <foreach collection="classifyConfigIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="classifyConfigIdSt !=null">
+                    `classify_config_id` >= #{classifyConfigIdSt} and
+                </if>
+                <if test="classifyConfigIdEd!=null">
+                    `classify_config_id` &lt;= #{classifyConfigIdEd} and
+                </if>
+                    <if test="contentList != null">
+                        `content` in
+                        <foreach collection="contentList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyContent!=null and fuzzyContent.size()>0">
+                    (
+                    <foreach collection="fuzzyContent"  separator="or" item="item">
+                        `Content` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyContent!=null and rightFuzzyContent.size()>0">
+                    (
+                    <foreach collection="rightFuzzyContent"  separator="or" item="item">
+                        `Content` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `classify_config_id`,
+        `content`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.ClassifyConfig$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.classifyConfigId==true">
+                        `classify_config_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.content==true">
+                        `content`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.classifyConfigId==null">
+                        `classify_config_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.content==null">
+                        `content`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.ClassifyConfig$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

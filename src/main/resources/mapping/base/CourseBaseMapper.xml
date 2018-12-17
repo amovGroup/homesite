@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.CourseBaseMapper">
+
+
+    <insert id="insertCourse"  useGeneratedKeys="true" keyProperty="courseId">
+        INSERT INTO `course`
+        (
+        <trim suffixOverrides=",">
+                    <if test="courseId!=null">
+                        `course_id`,
+                    </if>
+                    <if test="price!=null">
+                        `price`,
+                    </if>
+                    <if test="title!=null">
+                        `title`,
+                    </if>
+                    <if test="classify!=null">
+                        `classify`,
+                    </if>
+                    <if test="difficulty!=null">
+                        `difficulty`,
+                    </if>
+                    <if test="extraIntro!=null">
+                        `extra_intro`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="courseId!=null">
+                    #{courseId},
+                </if>
+                <if test="price!=null">
+                    #{price},
+                </if>
+                <if test="title!=null">
+                    #{title},
+                </if>
+                <if test="classify!=null">
+                    #{classify},
+                </if>
+                <if test="difficulty!=null">
+                    #{difficulty},
+                </if>
+                <if test="extraIntro!=null">
+                    #{extraIntro},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateCourse">
+        UPDATE `course`
+        SET
+        <trim suffixOverrides=",">
+            <if test="price != null">
+                `price` = #{price},
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title},
+            </if>
+            <if test="classify != null and classify!=''">
+                `classify` = #{classify},
+            </if>
+            <if test="difficulty != null">
+                `difficulty` = #{difficulty},
+            </if>
+            <if test="extraIntro != null and extraIntro!=''">
+                `extra_intro` = #{extraIntro},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `course_id` = #{courseId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `course`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.price != null">
+            `price` = #{set.price},
+        </if>
+        <if test="set.title != null and set.title!=''">
+            `title` = #{set.title},
+        </if>
+        <if test="set.classify != null and set.classify!=''">
+            `classify` = #{set.classify},
+        </if>
+        <if test="set.difficulty != null">
+            `difficulty` = #{set.difficulty},
+        </if>
+        <if test="set.extraIntro != null and set.extraIntro!=''">
+            `extra_intro` = #{set.extraIntro},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.courseIdList != null">
+                    `course_id` in
+                    <foreach collection="where.courseIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.courseIdSt !=null">
+                `course_id` >= #{where.courseIdSt} and
+            </if>
+            <if test="where.courseIdEd!=null">
+                `course_id` &lt;= #{where.courseIdEd} and
+            </if>
+                <if test="where.priceList != null">
+                    `price` in
+                    <foreach collection="where.priceList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.priceSt !=null">
+                `price` >= #{where.priceSt} and
+            </if>
+            <if test="where.priceEd!=null">
+                `price` &lt;= #{where.priceEd} and
+            </if>
+                <if test="where.titleList != null">
+                    `title` in
+                    <foreach collection="where.titleList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyTitle!=null and where.fuzzyTitle.size()>0">
+                (
+                <foreach collection="where.fuzzyTitle"  separator="or" item="item">
+                    `Title` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyTitle!=null and where.rightFuzzyTitle.size()>0">
+                (
+                <foreach collection="where.rightFuzzyTitle"  separator="or" item="item">
+                    `Title` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.classifyList != null">
+                    `classify` in
+                    <foreach collection="where.classifyList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyClassify!=null and where.fuzzyClassify.size()>0">
+                (
+                <foreach collection="where.fuzzyClassify"  separator="or" item="item">
+                    `Classify` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyClassify!=null and where.rightFuzzyClassify.size()>0">
+                (
+                <foreach collection="where.rightFuzzyClassify"  separator="or" item="item">
+                    `Classify` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.difficultyList != null">
+                    `difficulty` in
+                    <foreach collection="where.difficultyList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.difficultySt !=null">
+                `difficulty` >= #{where.difficultySt} and
+            </if>
+            <if test="where.difficultyEd!=null">
+                `difficulty` &lt;= #{where.difficultyEd} and
+            </if>
+                <if test="where.extraIntroList != null">
+                    `extra_intro` in
+                    <foreach collection="where.extraIntroList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyExtraIntro!=null and where.fuzzyExtraIntro.size()>0">
+                (
+                <foreach collection="where.fuzzyExtraIntro"  separator="or" item="item">
+                    `Extra_intro` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyExtraIntro!=null and where.rightFuzzyExtraIntro.size()>0">
+                (
+                <foreach collection="where.rightFuzzyExtraIntro"  separator="or" item="item">
+                    `Extra_intro` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.Course" id="CourseMap">
+        <result property="courseId" column="course_id"/>
+        <result property="price" column="price"/>
+        <result property="title" column="title"/>
+        <result property="classify" column="classify"/>
+        <result property="difficulty" column="difficulty"/>
+        <result property="extraIntro" column="extra_intro"/>
+    </resultMap>
+
+
+    <select id="queryCourse" resultMap="CourseMap">
+        select
+        <include refid="baseResult"></include>
+        from  `course`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="courseId != null">
+                `course_id` = #{courseId} and
+            </if>
+            <if test="price != null">
+                `price` = #{price} and
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title} and
+            </if>
+            <if test="classify != null and classify!=''">
+                `classify` = #{classify} and
+            </if>
+            <if test="difficulty != null">
+                `difficulty` = #{difficulty} and
+            </if>
+            <if test="extraIntro != null and extraIntro!=''">
+                `extra_intro` = #{extraIntro} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.Course$QueryBuilder) == true">
+                <if test="courseIdList != null">
+                    `course_id` in
+                    <foreach collection="courseIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="courseIdSt !=null">
+                    `course_id` >= #{courseIdSt} and
+                </if>
+                <if test="courseIdEd!=null">
+                    `course_id` &lt;= #{courseIdEd} and
+                </if>
+                <if test="priceList != null">
+                    `price` in
+                    <foreach collection="priceList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="priceSt !=null">
+                    `price` >= #{priceSt} and
+                </if>
+                <if test="priceEd!=null">
+                    `price` &lt;= #{priceEd} and
+                </if>
+                <if test="titleList != null">
+                    `title` in
+                    <foreach collection="titleList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyTitle!=null and fuzzyTitle.size()>0">
+                    (
+                    <foreach collection="fuzzyTitle"  separator="or" item="item">
+                        `Title` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTitle!=null and rightFuzzyTitle.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTitle"  separator="or" item="item">
+                        `Title` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="classifyList != null">
+                    `classify` in
+                    <foreach collection="classifyList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyClassify!=null and fuzzyClassify.size()>0">
+                    (
+                    <foreach collection="fuzzyClassify"  separator="or" item="item">
+                        `Classify` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyClassify!=null and rightFuzzyClassify.size()>0">
+                    (
+                    <foreach collection="rightFuzzyClassify"  separator="or" item="item">
+                        `Classify` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="difficultyList != null">
+                    `difficulty` in
+                    <foreach collection="difficultyList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="difficultySt !=null">
+                    `difficulty` >= #{difficultySt} and
+                </if>
+                <if test="difficultyEd!=null">
+                    `difficulty` &lt;= #{difficultyEd} and
+                </if>
+                <if test="extraIntroList != null">
+                    `extra_intro` in
+                    <foreach collection="extraIntroList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyExtraIntro!=null and fuzzyExtraIntro.size()>0">
+                    (
+                    <foreach collection="fuzzyExtraIntro"  separator="or" item="item">
+                        `Extra_intro` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyExtraIntro!=null and rightFuzzyExtraIntro.size()>0">
+                    (
+                    <foreach collection="rightFuzzyExtraIntro"  separator="or" item="item">
+                        `Extra_intro` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryCourseLimit1" resultMap="CourseMap">
+        select
+        <include refid="baseResult"></include>
+        from  `course`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="courseId != null">
+                `course_id` = #{courseId} and
+            </if>
+            <if test="price != null">
+                `price` = #{price} and
+            </if>
+            <if test="title != null and title!=''">
+                `title` = #{title} and
+            </if>
+            <if test="classify != null and classify!=''">
+                `classify` = #{classify} and
+            </if>
+            <if test="difficulty != null">
+                `difficulty` = #{difficulty} and
+            </if>
+            <if test="extraIntro != null and extraIntro!=''">
+                `extra_intro` = #{extraIntro} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.Course$QueryBuilder) == true">
+                    <if test="courseIdList != null">
+                        `course_id` in
+                        <foreach collection="courseIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="courseIdSt !=null">
+                    `course_id` >= #{courseIdSt} and
+                </if>
+                <if test="courseIdEd!=null">
+                    `course_id` &lt;= #{courseIdEd} and
+                </if>
+                    <if test="priceList != null">
+                        `price` in
+                        <foreach collection="priceList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="priceSt !=null">
+                    `price` >= #{priceSt} and
+                </if>
+                <if test="priceEd!=null">
+                    `price` &lt;= #{priceEd} and
+                </if>
+                    <if test="titleList != null">
+                        `title` in
+                        <foreach collection="titleList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyTitle!=null and fuzzyTitle.size()>0">
+                    (
+                    <foreach collection="fuzzyTitle"  separator="or" item="item">
+                        `Title` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyTitle!=null and rightFuzzyTitle.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTitle"  separator="or" item="item">
+                        `Title` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="classifyList != null">
+                        `classify` in
+                        <foreach collection="classifyList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyClassify!=null and fuzzyClassify.size()>0">
+                    (
+                    <foreach collection="fuzzyClassify"  separator="or" item="item">
+                        `Classify` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyClassify!=null and rightFuzzyClassify.size()>0">
+                    (
+                    <foreach collection="rightFuzzyClassify"  separator="or" item="item">
+                        `Classify` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="difficultyList != null">
+                        `difficulty` in
+                        <foreach collection="difficultyList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="difficultySt !=null">
+                    `difficulty` >= #{difficultySt} and
+                </if>
+                <if test="difficultyEd!=null">
+                    `difficulty` &lt;= #{difficultyEd} and
+                </if>
+                    <if test="extraIntroList != null">
+                        `extra_intro` in
+                        <foreach collection="extraIntroList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyExtraIntro!=null and fuzzyExtraIntro.size()>0">
+                    (
+                    <foreach collection="fuzzyExtraIntro"  separator="or" item="item">
+                        `Extra_intro` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyExtraIntro!=null and rightFuzzyExtraIntro.size()>0">
+                    (
+                    <foreach collection="rightFuzzyExtraIntro"  separator="or" item="item">
+                        `Extra_intro` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `course_id`,
+        `price`,
+        `title`,
+        `classify`,
+        `difficulty`,
+        `extra_intro`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.Course$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.courseId==true">
+                        `course_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.price==true">
+                        `price`,
+                    </if>
+                    <if test="fetchFields.fetchFields.title==true">
+                        `title`,
+                    </if>
+                    <if test="fetchFields.fetchFields.classify==true">
+                        `classify`,
+                    </if>
+                    <if test="fetchFields.fetchFields.difficulty==true">
+                        `difficulty`,
+                    </if>
+                    <if test="fetchFields.fetchFields.extraIntro==true">
+                        `extra_intro`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.courseId==null">
+                        `course_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.price==null">
+                        `price`,
+                    </if>
+                    <if test="fetchFields.excludeFields.title==null">
+                        `title`,
+                    </if>
+                    <if test="fetchFields.excludeFields.classify==null">
+                        `classify`,
+                    </if>
+                    <if test="fetchFields.excludeFields.difficulty==null">
+                        `difficulty`,
+                    </if>
+                    <if test="fetchFields.excludeFields.extraIntro==null">
+                        `extra_intro`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.Course$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>
