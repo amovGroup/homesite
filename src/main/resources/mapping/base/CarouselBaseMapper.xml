@@ -20,6 +20,9 @@
                     <if test="title!=null">
                         `title`,
                     </if>
+                    <if test="destinationUrl!=null">
+                        `destination_url`,
+                    </if>
         </trim>
         )
         VALUES
@@ -36,6 +39,9 @@
                 </if>
                 <if test="title!=null">
                     #{title},
+                </if>
+                <if test="destinationUrl!=null">
+                    #{destinationUrl},
                 </if>
         </trim>
         )
@@ -57,6 +63,9 @@
             <if test="title != null and title!=''">
                 `title` = #{title},
             </if>
+            <if test="destinationUrl != null and destinationUrl!=''">
+                `destination_url` = #{destinationUrl},
+            </if>
         </trim>
         WHERE
         <trim suffixOverrides="and">
@@ -76,6 +85,9 @@
         </if>
         <if test="set.title != null and set.title!=''">
             `title` = #{set.title},
+        </if>
+        <if test="set.destinationUrl != null and set.destinationUrl!=''">
+            `destination_url` = #{set.destinationUrl},
         </if>
         </trim>
         <trim prefix="where" suffixOverrides="and | or">
@@ -143,6 +155,26 @@
                 </foreach>
                 ) and
             </if>
+                <if test="where.destinationUrlList != null">
+                    `destination_url` in
+                    <foreach collection="where.destinationUrlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyDestinationUrl!=null and where.fuzzyDestinationUrl.size()>0">
+                (
+                <foreach collection="where.fuzzyDestinationUrl"  separator="or" item="item">
+                    `Destination_url` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyDestinationUrl!=null and where.rightFuzzyDestinationUrl.size()>0">
+                (
+                <foreach collection="where.rightFuzzyDestinationUrl"  separator="or" item="item">
+                    `Destination_url` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
         </trim>
     </update>
 
@@ -152,6 +184,7 @@
         <result property="imageUrl" column="image_url"/>
         <result property="location" column="location"/>
         <result property="title" column="title"/>
+        <result property="destinationUrl" column="destination_url"/>
     </resultMap>
 
 
@@ -171,6 +204,9 @@
             </if>
             <if test="title != null and title!=''">
                 `title` = #{title} and
+            </if>
+            <if test="destinationUrl != null and destinationUrl!=''">
+                `destination_url` = #{destinationUrl} and
             </if>
             <if test = "(_parameter instanceof com.amov.homesite.model.Carousel$QueryBuilder) == true">
                 <if test="carouselIdList != null">
@@ -237,6 +273,26 @@
                     </foreach>
                     ) and
                 </if>
+                <if test="destinationUrlList != null">
+                    `destination_url` in
+                    <foreach collection="destinationUrlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyDestinationUrl!=null and fuzzyDestinationUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyDestinationUrl"  separator="or" item="item">
+                        `Destination_url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyDestinationUrl!=null and rightFuzzyDestinationUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyDestinationUrl"  separator="or" item="item">
+                        `Destination_url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
             </if>
         </trim>
     </select>
@@ -257,6 +313,9 @@
             </if>
             <if test="title != null and title!=''">
                 `title` = #{title} and
+            </if>
+            <if test="destinationUrl != null and destinationUrl!=''">
+                `destination_url` = #{destinationUrl} and
             </if>
             <if test = "(_parameter instanceof com.amov.homesite.model.Carousel$QueryBuilder) == true">
                     <if test="carouselIdList != null">
@@ -323,6 +382,26 @@
                     </foreach>
                     ) and
                 </if>
+                    <if test="destinationUrlList != null">
+                        `destination_url` in
+                        <foreach collection="destinationUrlList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyDestinationUrl!=null and fuzzyDestinationUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyDestinationUrl"  separator="or" item="item">
+                        `Destination_url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyDestinationUrl!=null and rightFuzzyDestinationUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyDestinationUrl"  separator="or" item="item">
+                        `Destination_url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
             </if>
         </trim>
         limit 1
@@ -334,6 +413,7 @@
         `image_url`,
         `location`,
         `title`,
+        `destination_url`,
         </trim>
     </sql>
 
@@ -366,6 +446,9 @@
                     <if test="fetchFields.fetchFields.title==true">
                         `title`,
                     </if>
+                    <if test="fetchFields.fetchFields.destinationUrl==true">
+                        `destination_url`,
+                    </if>
                     </if>
                     <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
                     <if test="fetchFields.excludeFields.carouselId==null">
@@ -379,6 +462,9 @@
                     </if>
                     <if test="fetchFields.excludeFields.title==null">
                         `title`,
+                    </if>
+                    <if test="fetchFields.excludeFields.destinationUrl==null">
+                        `destination_url`,
                     </if>
                     </if>
                     <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">

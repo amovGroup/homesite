@@ -10,7 +10,7 @@ import java.util.List;
 */
 public class Carousel implements Serializable {
 
-    private static final long serialVersionUID = 1544778213273L;
+    private static final long serialVersionUID = 1545382455367L;
 
 
     /**
@@ -28,7 +28,7 @@ public class Carousel implements Serializable {
 
     /**
     * 图片位置
-    * isNullAble:1
+    * isNullAble:1,defaultVal:0
     */
     private Integer location;
 
@@ -37,6 +37,12 @@ public class Carousel implements Serializable {
     * isNullAble:1
     */
     private String title;
+
+    /**
+    * 跳转的目的地址
+    * isNullAble:1
+    */
+    private String destinationUrl;
 
 
     public void setCarouselId(Integer carouselId){this.carouselId = carouselId;}
@@ -54,6 +60,10 @@ public class Carousel implements Serializable {
     public void setTitle(String title){this.title = title;}
 
     public String getTitle(){return this.title;}
+
+    public void setDestinationUrl(String destinationUrl){this.destinationUrl = destinationUrl;}
+
+    public String getDestinationUrl(){return this.destinationUrl;}
     @Override
     public String toString() {
         return "Carousel{" +
@@ -61,6 +71,7 @@ public class Carousel implements Serializable {
                 "imageUrl='" + imageUrl + '\'' +
                 "location='" + location + '\'' +
                 "title='" + title + '\'' +
+                "destinationUrl='" + destinationUrl + '\'' +
             '}';
     }
 
@@ -157,6 +168,18 @@ public class Carousel implements Serializable {
         private List<String> rightFuzzyTitle;
 
         public List<String> getRightFuzzyTitle(){return this.rightFuzzyTitle;}
+        private List<String> destinationUrlList;
+
+        public List<String> getDestinationUrlList(){return this.destinationUrlList;}
+
+
+        private List<String> fuzzyDestinationUrl;
+
+        public List<String> getFuzzyDestinationUrl(){return this.fuzzyDestinationUrl;}
+
+        private List<String> rightFuzzyDestinationUrl;
+
+        public List<String> getRightFuzzyDestinationUrl(){return this.rightFuzzyDestinationUrl;}
         private QueryBuilder (){
             this.fetchFields = new HashMap<>();
         }
@@ -332,6 +355,51 @@ public class Carousel implements Serializable {
             setFetchFields("excludeFields","title");
             return this;
         }
+
+        public QueryBuilder fuzzyDestinationUrl (List<String> fuzzyDestinationUrl){
+            this.fuzzyDestinationUrl = fuzzyDestinationUrl;
+            return this;
+        }
+
+        public QueryBuilder fuzzyDestinationUrl (String ... fuzzyDestinationUrl){
+            this.fuzzyDestinationUrl = solveNullList(fuzzyDestinationUrl);
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyDestinationUrl (List<String> rightFuzzyDestinationUrl){
+            this.rightFuzzyDestinationUrl = rightFuzzyDestinationUrl;
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyDestinationUrl (String ... rightFuzzyDestinationUrl){
+            this.rightFuzzyDestinationUrl = solveNullList(rightFuzzyDestinationUrl);
+            return this;
+        }
+
+        public QueryBuilder destinationUrl(String destinationUrl){
+            setDestinationUrl(destinationUrl);
+            return this;
+        }
+
+        public QueryBuilder destinationUrlList(String ... destinationUrl){
+            this.destinationUrlList = solveNullList(destinationUrl);
+            return this;
+        }
+
+        public QueryBuilder destinationUrlList(List<String> destinationUrl){
+            this.destinationUrlList = destinationUrl;
+            return this;
+        }
+
+        public QueryBuilder fetchDestinationUrl(){
+            setFetchFields("fetchFields","destinationUrl");
+            return this;
+        }
+
+        public QueryBuilder excludeDestinationUrl(){
+            setFetchFields("excludeFields","destinationUrl");
+            return this;
+        }
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -423,6 +491,18 @@ public class Carousel implements Serializable {
         private List<String> rightFuzzyTitle;
 
         public List<String> getRightFuzzyTitle(){return this.rightFuzzyTitle;}
+        private List<String> destinationUrlList;
+
+        public List<String> getDestinationUrlList(){return this.destinationUrlList;}
+
+
+        private List<String> fuzzyDestinationUrl;
+
+        public List<String> getFuzzyDestinationUrl(){return this.fuzzyDestinationUrl;}
+
+        private List<String> rightFuzzyDestinationUrl;
+
+        public List<String> getRightFuzzyDestinationUrl(){return this.rightFuzzyDestinationUrl;}
 
         public ConditionBuilder carouselIdBetWeen(Integer carouselIdSt,Integer carouselIdEd){
             this.carouselIdSt = carouselIdSt;
@@ -536,6 +616,36 @@ public class Carousel implements Serializable {
             return this;
         }
 
+        public ConditionBuilder fuzzyDestinationUrl (List<String> fuzzyDestinationUrl){
+            this.fuzzyDestinationUrl = fuzzyDestinationUrl;
+            return this;
+        }
+
+        public ConditionBuilder fuzzyDestinationUrl (String ... fuzzyDestinationUrl){
+            this.fuzzyDestinationUrl = solveNullList(fuzzyDestinationUrl);
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzyDestinationUrl (List<String> rightFuzzyDestinationUrl){
+            this.rightFuzzyDestinationUrl = rightFuzzyDestinationUrl;
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzyDestinationUrl (String ... rightFuzzyDestinationUrl){
+            this.rightFuzzyDestinationUrl = solveNullList(rightFuzzyDestinationUrl);
+            return this;
+        }
+
+        public ConditionBuilder destinationUrlList(String ... destinationUrl){
+            this.destinationUrlList = solveNullList(destinationUrl);
+            return this;
+        }
+
+        public ConditionBuilder destinationUrlList(List<String> destinationUrl){
+            this.destinationUrlList = destinationUrl;
+            return this;
+        }
+
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -574,6 +684,10 @@ public class Carousel implements Serializable {
         }
         public Builder title(String title){
             this.obj.setTitle(title);
+            return this;
+        }
+        public Builder destinationUrl(String destinationUrl){
+            this.obj.setDestinationUrl(destinationUrl);
             return this;
         }
         public Carousel build(){return obj;}
