@@ -20,6 +20,9 @@ public class CarouselController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private static Integer HOME_LOCATION = 0;
+    private static Integer COURSE_LOCATION = 1;
+
     @Autowired
     private CarouselService carouselService;
 
@@ -72,4 +75,19 @@ public class CarouselController {
             return JsonResult.error(e.getMessage());
         }
     }
+
+    @RequestMapping("/course/list")
+    public JsonResult queryCourseList() {
+        try {
+            Carousel carousel = new Carousel();
+            carousel.setLocation(COURSE_LOCATION);
+            List<Carousel> carouselList = carouselService.queryCarouselList(carousel);
+            return JsonResult.ok(carouselList);
+        } catch (Exception e) {
+            logger.error("更新carousel失败");
+            e.printStackTrace();
+            return JsonResult.error(e.getMessage());
+        }
+    }
+
 }
