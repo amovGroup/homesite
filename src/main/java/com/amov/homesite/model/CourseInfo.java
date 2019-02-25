@@ -10,7 +10,7 @@ import java.util.List;
 */
 public class CourseInfo implements Serializable {
 
-    private static final long serialVersionUID = 1544694165413L;
+    private static final long serialVersionUID = 1547563777582L;
 
 
     /**
@@ -32,6 +32,12 @@ public class CourseInfo implements Serializable {
     */
     private String courseUrl;
 
+    /**
+    * 课程简介
+    * isNullAble:1
+    */
+    private String content;
+
 
     public void setCourseInfoId(Integer courseInfoId){this.courseInfoId = courseInfoId;}
 
@@ -44,12 +50,17 @@ public class CourseInfo implements Serializable {
     public void setCourseUrl(String courseUrl){this.courseUrl = courseUrl;}
 
     public String getCourseUrl(){return this.courseUrl;}
+
+    public void setContent(String content){this.content = content;}
+
+    public String getContent(){return this.content;}
     @Override
     public String toString() {
         return "CourseInfo{" +
                 "courseInfoId='" + courseInfoId + '\'' +
                 "courseId='" + courseId + '\'' +
                 "courseUrl='" + courseUrl + '\'' +
+                "content='" + content + '\'' +
             '}';
     }
 
@@ -134,6 +145,18 @@ public class CourseInfo implements Serializable {
         private List<String> rightFuzzyCourseUrl;
 
         public List<String> getRightFuzzyCourseUrl(){return this.rightFuzzyCourseUrl;}
+        private List<String> contentList;
+
+        public List<String> getContentList(){return this.contentList;}
+
+
+        private List<String> fuzzyContent;
+
+        public List<String> getFuzzyContent(){return this.fuzzyContent;}
+
+        private List<String> rightFuzzyContent;
+
+        public List<String> getRightFuzzyContent(){return this.rightFuzzyContent;}
         private QueryBuilder (){
             this.fetchFields = new HashMap<>();
         }
@@ -264,6 +287,51 @@ public class CourseInfo implements Serializable {
             setFetchFields("excludeFields","courseUrl");
             return this;
         }
+
+        public QueryBuilder fuzzyContent (List<String> fuzzyContent){
+            this.fuzzyContent = fuzzyContent;
+            return this;
+        }
+
+        public QueryBuilder fuzzyContent (String ... fuzzyContent){
+            this.fuzzyContent = solveNullList(fuzzyContent);
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyContent (List<String> rightFuzzyContent){
+            this.rightFuzzyContent = rightFuzzyContent;
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyContent (String ... rightFuzzyContent){
+            this.rightFuzzyContent = solveNullList(rightFuzzyContent);
+            return this;
+        }
+
+        public QueryBuilder content(String content){
+            setContent(content);
+            return this;
+        }
+
+        public QueryBuilder contentList(String ... content){
+            this.contentList = solveNullList(content);
+            return this;
+        }
+
+        public QueryBuilder contentList(List<String> content){
+            this.contentList = content;
+            return this;
+        }
+
+        public QueryBuilder fetchContent(){
+            setFetchFields("fetchFields","content");
+            return this;
+        }
+
+        public QueryBuilder excludeContent(){
+            setFetchFields("excludeFields","content");
+            return this;
+        }
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -343,6 +411,18 @@ public class CourseInfo implements Serializable {
         private List<String> rightFuzzyCourseUrl;
 
         public List<String> getRightFuzzyCourseUrl(){return this.rightFuzzyCourseUrl;}
+        private List<String> contentList;
+
+        public List<String> getContentList(){return this.contentList;}
+
+
+        private List<String> fuzzyContent;
+
+        public List<String> getFuzzyContent(){return this.fuzzyContent;}
+
+        private List<String> rightFuzzyContent;
+
+        public List<String> getRightFuzzyContent(){return this.rightFuzzyContent;}
 
         public ConditionBuilder courseInfoIdBetWeen(Integer courseInfoIdSt,Integer courseInfoIdEd){
             this.courseInfoIdSt = courseInfoIdSt;
@@ -426,6 +506,36 @@ public class CourseInfo implements Serializable {
             return this;
         }
 
+        public ConditionBuilder fuzzyContent (List<String> fuzzyContent){
+            this.fuzzyContent = fuzzyContent;
+            return this;
+        }
+
+        public ConditionBuilder fuzzyContent (String ... fuzzyContent){
+            this.fuzzyContent = solveNullList(fuzzyContent);
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzyContent (List<String> rightFuzzyContent){
+            this.rightFuzzyContent = rightFuzzyContent;
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzyContent (String ... rightFuzzyContent){
+            this.rightFuzzyContent = solveNullList(rightFuzzyContent);
+            return this;
+        }
+
+        public ConditionBuilder contentList(String ... content){
+            this.contentList = solveNullList(content);
+            return this;
+        }
+
+        public ConditionBuilder contentList(List<String> content){
+            this.contentList = content;
+            return this;
+        }
+
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -460,6 +570,10 @@ public class CourseInfo implements Serializable {
         }
         public Builder courseUrl(String courseUrl){
             this.obj.setCourseUrl(courseUrl);
+            return this;
+        }
+        public Builder content(String content){
+            this.obj.setContent(content);
             return this;
         }
         public CourseInfo build(){return obj;}

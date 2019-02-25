@@ -10,7 +10,7 @@ import java.util.List;
 */
 public class Course implements Serializable {
 
-    private static final long serialVersionUID = 1544694271245L;
+    private static final long serialVersionUID = 1546593690491L;
 
 
     /**
@@ -50,6 +50,18 @@ public class Course implements Serializable {
     */
     private String extraIntro;
 
+    /**
+    * 课程url
+    * isNullAble:1
+    */
+    private String profileUrl;
+
+    /**
+    * 是否是最新课程
+    * isNullAble:1,defaultVal:0
+    */
+    private Integer isTheLatest;
+
 
     public void setCourseId(Integer courseId){this.courseId = courseId;}
 
@@ -74,6 +86,14 @@ public class Course implements Serializable {
     public void setExtraIntro(String extraIntro){this.extraIntro = extraIntro;}
 
     public String getExtraIntro(){return this.extraIntro;}
+
+    public void setProfileUrl(String profileUrl){this.profileUrl = profileUrl;}
+
+    public String getProfileUrl(){return this.profileUrl;}
+
+    public void setIsTheLatest(Integer isTheLatest){this.isTheLatest = isTheLatest;}
+
+    public Integer getIsTheLatest(){return this.isTheLatest;}
     @Override
     public String toString() {
         return "Course{" +
@@ -83,6 +103,8 @@ public class Course implements Serializable {
                 "classify='" + classify + '\'' +
                 "difficulty='" + difficulty + '\'' +
                 "extraIntro='" + extraIntro + '\'' +
+                "profileUrl='" + profileUrl + '\'' +
+                "isTheLatest='" + isTheLatest + '\'' +
             '}';
     }
 
@@ -203,6 +225,30 @@ public class Course implements Serializable {
         private List<String> rightFuzzyExtraIntro;
 
         public List<String> getRightFuzzyExtraIntro(){return this.rightFuzzyExtraIntro;}
+        private List<String> profileUrlList;
+
+        public List<String> getProfileUrlList(){return this.profileUrlList;}
+
+
+        private List<String> fuzzyProfileUrl;
+
+        public List<String> getFuzzyProfileUrl(){return this.fuzzyProfileUrl;}
+
+        private List<String> rightFuzzyProfileUrl;
+
+        public List<String> getRightFuzzyProfileUrl(){return this.rightFuzzyProfileUrl;}
+        private List<Integer> isTheLatestList;
+
+        public List<Integer> getIsTheLatestList(){return this.isTheLatestList;}
+
+        private Integer isTheLatestSt;
+
+        private Integer isTheLatestEd;
+
+        public Integer getIsTheLatestSt(){return this.isTheLatestSt;}
+
+        public Integer getIsTheLatestEd(){return this.isTheLatestEd;}
+
         private QueryBuilder (){
             this.fetchFields = new HashMap<>();
         }
@@ -464,6 +510,92 @@ public class Course implements Serializable {
             setFetchFields("excludeFields","extraIntro");
             return this;
         }
+
+        public QueryBuilder fuzzyProfileUrl (List<String> fuzzyProfileUrl){
+            this.fuzzyProfileUrl = fuzzyProfileUrl;
+            return this;
+        }
+
+        public QueryBuilder fuzzyProfileUrl (String ... fuzzyProfileUrl){
+            this.fuzzyProfileUrl = solveNullList(fuzzyProfileUrl);
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyProfileUrl (List<String> rightFuzzyProfileUrl){
+            this.rightFuzzyProfileUrl = rightFuzzyProfileUrl;
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyProfileUrl (String ... rightFuzzyProfileUrl){
+            this.rightFuzzyProfileUrl = solveNullList(rightFuzzyProfileUrl);
+            return this;
+        }
+
+        public QueryBuilder profileUrl(String profileUrl){
+            setProfileUrl(profileUrl);
+            return this;
+        }
+
+        public QueryBuilder profileUrlList(String ... profileUrl){
+            this.profileUrlList = solveNullList(profileUrl);
+            return this;
+        }
+
+        public QueryBuilder profileUrlList(List<String> profileUrl){
+            this.profileUrlList = profileUrl;
+            return this;
+        }
+
+        public QueryBuilder fetchProfileUrl(){
+            setFetchFields("fetchFields","profileUrl");
+            return this;
+        }
+
+        public QueryBuilder excludeProfileUrl(){
+            setFetchFields("excludeFields","profileUrl");
+            return this;
+        }
+
+        public QueryBuilder isTheLatestBetWeen(Integer isTheLatestSt,Integer isTheLatestEd){
+            this.isTheLatestSt = isTheLatestSt;
+            this.isTheLatestEd = isTheLatestEd;
+            return this;
+        }
+
+        public QueryBuilder isTheLatestGreaterEqThan(Integer isTheLatestSt){
+            this.isTheLatestSt = isTheLatestSt;
+            return this;
+        }
+        public QueryBuilder isTheLatestLessEqThan(Integer isTheLatestEd){
+            this.isTheLatestEd = isTheLatestEd;
+            return this;
+        }
+
+
+        public QueryBuilder isTheLatest(Integer isTheLatest){
+            setIsTheLatest(isTheLatest);
+            return this;
+        }
+
+        public QueryBuilder isTheLatestList(Integer ... isTheLatest){
+            this.isTheLatestList = solveNullList(isTheLatest);
+            return this;
+        }
+
+        public QueryBuilder isTheLatestList(List<Integer> isTheLatest){
+            this.isTheLatestList = isTheLatest;
+            return this;
+        }
+
+        public QueryBuilder fetchIsTheLatest(){
+            setFetchFields("fetchFields","isTheLatest");
+            return this;
+        }
+
+        public QueryBuilder excludeIsTheLatest(){
+            setFetchFields("excludeFields","isTheLatest");
+            return this;
+        }
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -579,6 +711,30 @@ public class Course implements Serializable {
         private List<String> rightFuzzyExtraIntro;
 
         public List<String> getRightFuzzyExtraIntro(){return this.rightFuzzyExtraIntro;}
+        private List<String> profileUrlList;
+
+        public List<String> getProfileUrlList(){return this.profileUrlList;}
+
+
+        private List<String> fuzzyProfileUrl;
+
+        public List<String> getFuzzyProfileUrl(){return this.fuzzyProfileUrl;}
+
+        private List<String> rightFuzzyProfileUrl;
+
+        public List<String> getRightFuzzyProfileUrl(){return this.rightFuzzyProfileUrl;}
+        private List<Integer> isTheLatestList;
+
+        public List<Integer> getIsTheLatestList(){return this.isTheLatestList;}
+
+        private Integer isTheLatestSt;
+
+        private Integer isTheLatestEd;
+
+        public Integer getIsTheLatestSt(){return this.isTheLatestSt;}
+
+        public Integer getIsTheLatestEd(){return this.isTheLatestEd;}
+
 
         public ConditionBuilder courseIdBetWeen(Integer courseIdSt,Integer courseIdEd){
             this.courseIdSt = courseIdSt;
@@ -748,6 +904,62 @@ public class Course implements Serializable {
             return this;
         }
 
+        public ConditionBuilder fuzzyProfileUrl (List<String> fuzzyProfileUrl){
+            this.fuzzyProfileUrl = fuzzyProfileUrl;
+            return this;
+        }
+
+        public ConditionBuilder fuzzyProfileUrl (String ... fuzzyProfileUrl){
+            this.fuzzyProfileUrl = solveNullList(fuzzyProfileUrl);
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzyProfileUrl (List<String> rightFuzzyProfileUrl){
+            this.rightFuzzyProfileUrl = rightFuzzyProfileUrl;
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzyProfileUrl (String ... rightFuzzyProfileUrl){
+            this.rightFuzzyProfileUrl = solveNullList(rightFuzzyProfileUrl);
+            return this;
+        }
+
+        public ConditionBuilder profileUrlList(String ... profileUrl){
+            this.profileUrlList = solveNullList(profileUrl);
+            return this;
+        }
+
+        public ConditionBuilder profileUrlList(List<String> profileUrl){
+            this.profileUrlList = profileUrl;
+            return this;
+        }
+
+        public ConditionBuilder isTheLatestBetWeen(Integer isTheLatestSt,Integer isTheLatestEd){
+            this.isTheLatestSt = isTheLatestSt;
+            this.isTheLatestEd = isTheLatestEd;
+            return this;
+        }
+
+        public ConditionBuilder isTheLatestGreaterEqThan(Integer isTheLatestSt){
+            this.isTheLatestSt = isTheLatestSt;
+            return this;
+        }
+        public ConditionBuilder isTheLatestLessEqThan(Integer isTheLatestEd){
+            this.isTheLatestEd = isTheLatestEd;
+            return this;
+        }
+
+
+        public ConditionBuilder isTheLatestList(Integer ... isTheLatest){
+            this.isTheLatestList = solveNullList(isTheLatest);
+            return this;
+        }
+
+        public ConditionBuilder isTheLatestList(List<Integer> isTheLatest){
+            this.isTheLatestList = isTheLatest;
+            return this;
+        }
+
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -794,6 +1006,14 @@ public class Course implements Serializable {
         }
         public Builder extraIntro(String extraIntro){
             this.obj.setExtraIntro(extraIntro);
+            return this;
+        }
+        public Builder profileUrl(String profileUrl){
+            this.obj.setProfileUrl(profileUrl);
+            return this;
+        }
+        public Builder isTheLatest(Integer isTheLatest){
+            this.obj.setIsTheLatest(isTheLatest);
             return this;
         }
         public Course build(){return obj;}

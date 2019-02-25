@@ -8,9 +8,9 @@ import java.util.List;
 *
 *  @author toy
 */
-public class teacher implements Serializable {
+public class Teacher implements Serializable {
 
-    private static final long serialVersionUID = 1544694299042L;
+    private static final long serialVersionUID = 1547484594291L;
 
 
     /**
@@ -32,6 +32,12 @@ public class teacher implements Serializable {
     */
     private String intro;
 
+    /**
+    * 照片
+    * isNullAble:1
+    */
+    private String profileUrl;
+
 
     public void setTeacherId(Integer teacherId){this.teacherId = teacherId;}
 
@@ -44,12 +50,17 @@ public class teacher implements Serializable {
     public void setIntro(String intro){this.intro = intro;}
 
     public String getIntro(){return this.intro;}
+
+    public void setProfileUrl(String profileUrl){this.profileUrl = profileUrl;}
+
+    public String getProfileUrl(){return this.profileUrl;}
     @Override
     public String toString() {
-        return "teacher{" +
+        return "Teacher{" +
                 "teacherId='" + teacherId + '\'' +
                 "name='" + name + '\'' +
                 "intro='" + intro + '\'' +
+                "profileUrl='" + profileUrl + '\'' +
             '}';
     }
 
@@ -63,16 +74,16 @@ public class teacher implements Serializable {
 
     public static class UpdateBuilder {
 
-        private teacher set;
+        private Teacher set;
 
         private ConditionBuilder where;
 
-        public UpdateBuilder set(teacher set){
+        public UpdateBuilder set(Teacher set){
             this.set = set;
             return this;
         }
 
-        public teacher getSet(){
+        public Teacher getSet(){
             return this.set;
         }
 
@@ -90,7 +101,7 @@ public class teacher implements Serializable {
         }
     }
 
-    public static class QueryBuilder extends teacher{
+    public static class QueryBuilder extends Teacher{
         /**
         * 需要返回的列
         */
@@ -134,6 +145,18 @@ public class teacher implements Serializable {
         private List<String> rightFuzzyIntro;
 
         public List<String> getRightFuzzyIntro(){return this.rightFuzzyIntro;}
+        private List<String> profileUrlList;
+
+        public List<String> getProfileUrlList(){return this.profileUrlList;}
+
+
+        private List<String> fuzzyProfileUrl;
+
+        public List<String> getFuzzyProfileUrl(){return this.fuzzyProfileUrl;}
+
+        private List<String> rightFuzzyProfileUrl;
+
+        public List<String> getRightFuzzyProfileUrl(){return this.rightFuzzyProfileUrl;}
         private QueryBuilder (){
             this.fetchFields = new HashMap<>();
         }
@@ -268,6 +291,51 @@ public class teacher implements Serializable {
             setFetchFields("excludeFields","intro");
             return this;
         }
+
+        public QueryBuilder fuzzyProfileUrl (List<String> fuzzyProfileUrl){
+            this.fuzzyProfileUrl = fuzzyProfileUrl;
+            return this;
+        }
+
+        public QueryBuilder fuzzyProfileUrl (String ... fuzzyProfileUrl){
+            this.fuzzyProfileUrl = solveNullList(fuzzyProfileUrl);
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyProfileUrl (List<String> rightFuzzyProfileUrl){
+            this.rightFuzzyProfileUrl = rightFuzzyProfileUrl;
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyProfileUrl (String ... rightFuzzyProfileUrl){
+            this.rightFuzzyProfileUrl = solveNullList(rightFuzzyProfileUrl);
+            return this;
+        }
+
+        public QueryBuilder profileUrl(String profileUrl){
+            setProfileUrl(profileUrl);
+            return this;
+        }
+
+        public QueryBuilder profileUrlList(String ... profileUrl){
+            this.profileUrlList = solveNullList(profileUrl);
+            return this;
+        }
+
+        public QueryBuilder profileUrlList(List<String> profileUrl){
+            this.profileUrlList = profileUrl;
+            return this;
+        }
+
+        public QueryBuilder fetchProfileUrl(){
+            setFetchFields("fetchFields","profileUrl");
+            return this;
+        }
+
+        public QueryBuilder excludeProfileUrl(){
+            setFetchFields("excludeFields","profileUrl");
+            return this;
+        }
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -306,7 +374,7 @@ public class teacher implements Serializable {
             this.fetchFields.put(key,fields);
         }
 
-        public teacher build(){return this;}
+        public Teacher build(){return this;}
     }
 
 
@@ -347,6 +415,18 @@ public class teacher implements Serializable {
         private List<String> rightFuzzyIntro;
 
         public List<String> getRightFuzzyIntro(){return this.rightFuzzyIntro;}
+        private List<String> profileUrlList;
+
+        public List<String> getProfileUrlList(){return this.profileUrlList;}
+
+
+        private List<String> fuzzyProfileUrl;
+
+        public List<String> getFuzzyProfileUrl(){return this.fuzzyProfileUrl;}
+
+        private List<String> rightFuzzyProfileUrl;
+
+        public List<String> getRightFuzzyProfileUrl(){return this.rightFuzzyProfileUrl;}
 
         public ConditionBuilder teacherIdBetWeen(Integer teacherIdSt,Integer teacherIdEd){
             this.teacherIdSt = teacherIdSt;
@@ -434,6 +514,36 @@ public class teacher implements Serializable {
             return this;
         }
 
+        public ConditionBuilder fuzzyProfileUrl (List<String> fuzzyProfileUrl){
+            this.fuzzyProfileUrl = fuzzyProfileUrl;
+            return this;
+        }
+
+        public ConditionBuilder fuzzyProfileUrl (String ... fuzzyProfileUrl){
+            this.fuzzyProfileUrl = solveNullList(fuzzyProfileUrl);
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzyProfileUrl (List<String> rightFuzzyProfileUrl){
+            this.rightFuzzyProfileUrl = rightFuzzyProfileUrl;
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzyProfileUrl (String ... rightFuzzyProfileUrl){
+            this.rightFuzzyProfileUrl = solveNullList(rightFuzzyProfileUrl);
+            return this;
+        }
+
+        public ConditionBuilder profileUrlList(String ... profileUrl){
+            this.profileUrlList = solveNullList(profileUrl);
+            return this;
+        }
+
+        public ConditionBuilder profileUrlList(List<String> profileUrl){
+            this.profileUrlList = profileUrl;
+            return this;
+        }
+
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -452,10 +562,10 @@ public class teacher implements Serializable {
 
     public static class Builder {
 
-        private teacher obj;
+        private Teacher obj;
 
         public Builder(){
-            this.obj = new teacher();
+            this.obj = new Teacher();
         }
 
         public Builder teacherId(Integer teacherId){
@@ -470,7 +580,11 @@ public class teacher implements Serializable {
             this.obj.setIntro(intro);
             return this;
         }
-        public teacher build(){return obj;}
+        public Builder profileUrl(String profileUrl){
+            this.obj.setProfileUrl(profileUrl);
+            return this;
+        }
+        public Teacher build(){return obj;}
     }
 
 }

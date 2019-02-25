@@ -10,7 +10,7 @@ import java.util.List;
 */
 public class CoursePeriod implements Serializable {
 
-    private static final long serialVersionUID = 1544694187380L;
+    private static final long serialVersionUID = 1547887450332L;
 
 
     /**
@@ -38,6 +38,12 @@ public class CoursePeriod implements Serializable {
     */
     private String content;
 
+    /**
+    * 课时编号
+    * isNullAble:1
+    */
+    private Integer number;
+
 
     public void setCoursePeriodId(Integer coursePeriodId){this.coursePeriodId = coursePeriodId;}
 
@@ -54,6 +60,10 @@ public class CoursePeriod implements Serializable {
     public void setContent(String content){this.content = content;}
 
     public String getContent(){return this.content;}
+
+    public void setNumber(Integer number){this.number = number;}
+
+    public Integer getNumber(){return this.number;}
     @Override
     public String toString() {
         return "CoursePeriod{" +
@@ -61,6 +71,7 @@ public class CoursePeriod implements Serializable {
                 "courseChapterId='" + courseChapterId + '\'' +
                 "title='" + title + '\'' +
                 "content='" + content + '\'' +
+                "number='" + number + '\'' +
             '}';
     }
 
@@ -157,6 +168,18 @@ public class CoursePeriod implements Serializable {
         private List<String> rightFuzzyContent;
 
         public List<String> getRightFuzzyContent(){return this.rightFuzzyContent;}
+        private List<Integer> numberList;
+
+        public List<Integer> getNumberList(){return this.numberList;}
+
+        private Integer numberSt;
+
+        private Integer numberEd;
+
+        public Integer getNumberSt(){return this.numberSt;}
+
+        public Integer getNumberEd(){return this.numberEd;}
+
         private QueryBuilder (){
             this.fetchFields = new HashMap<>();
         }
@@ -332,6 +355,47 @@ public class CoursePeriod implements Serializable {
             setFetchFields("excludeFields","content");
             return this;
         }
+
+        public QueryBuilder numberBetWeen(Integer numberSt,Integer numberEd){
+            this.numberSt = numberSt;
+            this.numberEd = numberEd;
+            return this;
+        }
+
+        public QueryBuilder numberGreaterEqThan(Integer numberSt){
+            this.numberSt = numberSt;
+            return this;
+        }
+        public QueryBuilder numberLessEqThan(Integer numberEd){
+            this.numberEd = numberEd;
+            return this;
+        }
+
+
+        public QueryBuilder number(Integer number){
+            setNumber(number);
+            return this;
+        }
+
+        public QueryBuilder numberList(Integer ... number){
+            this.numberList = solveNullList(number);
+            return this;
+        }
+
+        public QueryBuilder numberList(List<Integer> number){
+            this.numberList = number;
+            return this;
+        }
+
+        public QueryBuilder fetchNumber(){
+            setFetchFields("fetchFields","number");
+            return this;
+        }
+
+        public QueryBuilder excludeNumber(){
+            setFetchFields("excludeFields","number");
+            return this;
+        }
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -423,6 +487,18 @@ public class CoursePeriod implements Serializable {
         private List<String> rightFuzzyContent;
 
         public List<String> getRightFuzzyContent(){return this.rightFuzzyContent;}
+        private List<Integer> numberList;
+
+        public List<Integer> getNumberList(){return this.numberList;}
+
+        private Integer numberSt;
+
+        private Integer numberEd;
+
+        public Integer getNumberSt(){return this.numberSt;}
+
+        public Integer getNumberEd(){return this.numberEd;}
+
 
         public ConditionBuilder coursePeriodIdBetWeen(Integer coursePeriodIdSt,Integer coursePeriodIdEd){
             this.coursePeriodIdSt = coursePeriodIdSt;
@@ -536,6 +612,32 @@ public class CoursePeriod implements Serializable {
             return this;
         }
 
+        public ConditionBuilder numberBetWeen(Integer numberSt,Integer numberEd){
+            this.numberSt = numberSt;
+            this.numberEd = numberEd;
+            return this;
+        }
+
+        public ConditionBuilder numberGreaterEqThan(Integer numberSt){
+            this.numberSt = numberSt;
+            return this;
+        }
+        public ConditionBuilder numberLessEqThan(Integer numberEd){
+            this.numberEd = numberEd;
+            return this;
+        }
+
+
+        public ConditionBuilder numberList(Integer ... number){
+            this.numberList = solveNullList(number);
+            return this;
+        }
+
+        public ConditionBuilder numberList(List<Integer> number){
+            this.numberList = number;
+            return this;
+        }
+
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -574,6 +676,10 @@ public class CoursePeriod implements Serializable {
         }
         public Builder content(String content){
             this.obj.setContent(content);
+            return this;
+        }
+        public Builder number(Integer number){
+            this.obj.setNumber(number);
             return this;
         }
         public CoursePeriod build(){return obj;}

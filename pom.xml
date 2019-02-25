@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.amov</groupId>
     <artifactId>homesite</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.6.4-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>homesite</name>
     <description>Demo project for Spring Boot</description>
@@ -101,7 +101,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.13</version>
+            <version>5.1.47</version>
         </dependency>
 
 

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.amov.homesite.mapper.base.NewsInfoBaseMapper">
+
+
+    <insert id="insertNewsInfo"  useGeneratedKeys="true" keyProperty="newsInfoId">
+        INSERT INTO `news_info`
+        (
+        <trim suffixOverrides=",">
+                    <if test="newsInfoId!=null">
+                        `news_info_id`,
+                    </if>
+                    <if test="newsId!=null">
+                        `news_id`,
+                    </if>
+                    <if test="body!=null">
+                        `body`,
+                    </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+                <if test="newsInfoId!=null">
+                    #{newsInfoId},
+                </if>
+                <if test="newsId!=null">
+                    #{newsId},
+                </if>
+                <if test="body!=null">
+                    #{body},
+                </if>
+        </trim>
+        )
+    </insert>
+
+
+
+
+    <update id="updateNewsInfo">
+        UPDATE `news_info`
+        SET
+        <trim suffixOverrides=",">
+            <if test="newsId != null">
+                `news_id` = #{newsId},
+            </if>
+            <if test="body != null and body!=''">
+                `body` = #{body},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+                `news_info_id` = #{newsInfoId} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `news_info`
+        SET
+        <trim suffixOverrides=",">
+        <if test="set.newsId != null">
+            `news_id` = #{set.newsId},
+        </if>
+        <if test="set.body != null and set.body!=''">
+            `body` = #{set.body},
+        </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+                <if test="where.newsInfoIdList != null">
+                    `news_info_id` in
+                    <foreach collection="where.newsInfoIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.newsInfoIdSt !=null">
+                `news_info_id` >= #{where.newsInfoIdSt} and
+            </if>
+            <if test="where.newsInfoIdEd!=null">
+                `news_info_id` &lt;= #{where.newsInfoIdEd} and
+            </if>
+                <if test="where.newsIdList != null">
+                    `news_id` in
+                    <foreach collection="where.newsIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.newsIdSt !=null">
+                `news_id` >= #{where.newsIdSt} and
+            </if>
+            <if test="where.newsIdEd!=null">
+                `news_id` &lt;= #{where.newsIdEd} and
+            </if>
+                <if test="where.bodyList != null">
+                    `body` in
+                    <foreach collection="where.bodyList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyBody!=null and where.fuzzyBody.size()>0">
+                (
+                <foreach collection="where.fuzzyBody"  separator="or" item="item">
+                    `Body` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyBody!=null and where.rightFuzzyBody.size()>0">
+                (
+                <foreach collection="where.rightFuzzyBody"  separator="or" item="item">
+                    `Body` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.amov.homesite.model.NewsInfo" id="NewsInfoMap">
+        <result property="newsInfoId" column="news_info_id"/>
+        <result property="newsId" column="news_id"/>
+        <result property="body" column="body"/>
+    </resultMap>
+
+
+    <select id="queryNewsInfo" resultMap="NewsInfoMap">
+        select
+        <include refid="baseResult"></include>
+        from  `news_info`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="newsInfoId != null">
+                `news_info_id` = #{newsInfoId} and
+            </if>
+            <if test="newsId != null">
+                `news_id` = #{newsId} and
+            </if>
+            <if test="body != null and body!=''">
+                `body` = #{body} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.NewsInfo$QueryBuilder) == true">
+                <if test="newsInfoIdList != null">
+                    `news_info_id` in
+                    <foreach collection="newsInfoIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="newsInfoIdSt !=null">
+                    `news_info_id` >= #{newsInfoIdSt} and
+                </if>
+                <if test="newsInfoIdEd!=null">
+                    `news_info_id` &lt;= #{newsInfoIdEd} and
+                </if>
+                <if test="newsIdList != null">
+                    `news_id` in
+                    <foreach collection="newsIdList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="newsIdSt !=null">
+                    `news_id` >= #{newsIdSt} and
+                </if>
+                <if test="newsIdEd!=null">
+                    `news_id` &lt;= #{newsIdEd} and
+                </if>
+                <if test="bodyList != null">
+                    `body` in
+                    <foreach collection="bodyList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyBody!=null and fuzzyBody.size()>0">
+                    (
+                    <foreach collection="fuzzyBody"  separator="or" item="item">
+                        `Body` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyBody!=null and rightFuzzyBody.size()>0">
+                    (
+                    <foreach collection="rightFuzzyBody"  separator="or" item="item">
+                        `Body` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryNewsInfoLimit1" resultMap="NewsInfoMap">
+        select
+        <include refid="baseResult"></include>
+        from  `news_info`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="newsInfoId != null">
+                `news_info_id` = #{newsInfoId} and
+            </if>
+            <if test="newsId != null">
+                `news_id` = #{newsId} and
+            </if>
+            <if test="body != null and body!=''">
+                `body` = #{body} and
+            </if>
+            <if test = "(_parameter instanceof com.amov.homesite.model.NewsInfo$QueryBuilder) == true">
+                    <if test="newsInfoIdList != null">
+                        `news_info_id` in
+                        <foreach collection="newsInfoIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="newsInfoIdSt !=null">
+                    `news_info_id` >= #{newsInfoIdSt} and
+                </if>
+                <if test="newsInfoIdEd!=null">
+                    `news_info_id` &lt;= #{newsInfoIdEd} and
+                </if>
+                    <if test="newsIdList != null">
+                        `news_id` in
+                        <foreach collection="newsIdList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="newsIdSt !=null">
+                    `news_id` >= #{newsIdSt} and
+                </if>
+                <if test="newsIdEd!=null">
+                    `news_id` &lt;= #{newsIdEd} and
+                </if>
+                    <if test="bodyList != null">
+                        `body` in
+                        <foreach collection="bodyList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyBody!=null and fuzzyBody.size()>0">
+                    (
+                    <foreach collection="fuzzyBody"  separator="or" item="item">
+                        `Body` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyBody!=null and rightFuzzyBody.size()>0">
+                    (
+                    <foreach collection="rightFuzzyBody"  separator="or" item="item">
+                        `Body` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+        `news_info_id`,
+        `news_id`,
+        `body`,
+        </trim>
+    </sql>
+
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test = "(_parameter instanceof com.amov.homesite.model.NewsInfo$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                    <if test="fetchFields.fetchFields.newsInfoId==true">
+                        `news_info_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.newsId==true">
+                        `news_id`,
+                    </if>
+                    <if test="fetchFields.fetchFields.body==true">
+                        `body`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                    <if test="fetchFields.excludeFields.newsInfoId==null">
+                        `news_info_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.newsId==null">
+                        `news_id`,
+                    </if>
+                    <if test="fetchFields.excludeFields.body==null">
+                        `body`,
+                    </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                        `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.amov.homesite.model.NewsInfo$QueryBuilder) == false" >
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

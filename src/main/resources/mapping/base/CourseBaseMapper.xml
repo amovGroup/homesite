@@ -26,6 +26,12 @@
                     <if test="extraIntro!=null">
                         `extra_intro`,
                     </if>
+                    <if test="profileUrl!=null">
+                        `profile_url`,
+                    </if>
+                    <if test="isTheLatest!=null">
+                        `is_the_latest`,
+                    </if>
         </trim>
         )
         VALUES
@@ -48,6 +54,12 @@
                 </if>
                 <if test="extraIntro!=null">
                     #{extraIntro},
+                </if>
+                <if test="profileUrl!=null">
+                    #{profileUrl},
+                </if>
+                <if test="isTheLatest!=null">
+                    #{isTheLatest},
                 </if>
         </trim>
         )
@@ -75,6 +87,12 @@
             <if test="extraIntro != null and extraIntro!=''">
                 `extra_intro` = #{extraIntro},
             </if>
+            <if test="profileUrl != null and profileUrl!=''">
+                `profile_url` = #{profileUrl},
+            </if>
+            <if test="isTheLatest != null">
+                `is_the_latest` = #{isTheLatest},
+            </if>
         </trim>
         WHERE
         <trim suffixOverrides="and">
@@ -100,6 +118,12 @@
         </if>
         <if test="set.extraIntro != null and set.extraIntro!=''">
             `extra_intro` = #{set.extraIntro},
+        </if>
+        <if test="set.profileUrl != null and set.profileUrl!=''">
+            `profile_url` = #{set.profileUrl},
+        </if>
+        <if test="set.isTheLatest != null">
+            `is_the_latest` = #{set.isTheLatest},
         </if>
         </trim>
         <trim prefix="where" suffixOverrides="and | or">
@@ -199,6 +223,38 @@
                 </foreach>
                 ) and
             </if>
+                <if test="where.profileUrlList != null">
+                    `profile_url` in
+                    <foreach collection="where.profileUrlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyProfileUrl!=null and where.fuzzyProfileUrl.size()>0">
+                (
+                <foreach collection="where.fuzzyProfileUrl"  separator="or" item="item">
+                    `Profile_url` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyProfileUrl!=null and where.rightFuzzyProfileUrl.size()>0">
+                (
+                <foreach collection="where.rightFuzzyProfileUrl"  separator="or" item="item">
+                    `Profile_url` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.isTheLatestList != null">
+                    `is_the_latest` in
+                    <foreach collection="where.isTheLatestList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.isTheLatestSt !=null">
+                `is_the_latest` >= #{where.isTheLatestSt} and
+            </if>
+            <if test="where.isTheLatestEd!=null">
+                `is_the_latest` &lt;= #{where.isTheLatestEd} and
+            </if>
         </trim>
     </update>
 
@@ -210,6 +266,8 @@
         <result property="classify" column="classify"/>
         <result property="difficulty" column="difficulty"/>
         <result property="extraIntro" column="extra_intro"/>
+        <result property="profileUrl" column="profile_url"/>
+        <result property="isTheLatest" column="is_the_latest"/>
     </resultMap>
 
 
@@ -235,6 +293,12 @@
             </if>
             <if test="extraIntro != null and extraIntro!=''">
                 `extra_intro` = #{extraIntro} and
+            </if>
+            <if test="profileUrl != null and profileUrl!=''">
+                `profile_url` = #{profileUrl} and
+            </if>
+            <if test="isTheLatest != null">
+                `is_the_latest` = #{isTheLatest} and
             </if>
             <if test = "(_parameter instanceof com.amov.homesite.model.Course$QueryBuilder) == true">
                 <if test="courseIdList != null">
@@ -333,6 +397,38 @@
                     </foreach>
                     ) and
                 </if>
+                <if test="profileUrlList != null">
+                    `profile_url` in
+                    <foreach collection="profileUrlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyProfileUrl!=null and fuzzyProfileUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyProfileUrl"  separator="or" item="item">
+                        `Profile_url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyProfileUrl!=null and rightFuzzyProfileUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyProfileUrl"  separator="or" item="item">
+                        `Profile_url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="isTheLatestList != null">
+                    `is_the_latest` in
+                    <foreach collection="isTheLatestList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="isTheLatestSt !=null">
+                    `is_the_latest` >= #{isTheLatestSt} and
+                </if>
+                <if test="isTheLatestEd!=null">
+                    `is_the_latest` &lt;= #{isTheLatestEd} and
+                </if>
             </if>
         </trim>
     </select>
@@ -359,6 +455,12 @@
             </if>
             <if test="extraIntro != null and extraIntro!=''">
                 `extra_intro` = #{extraIntro} and
+            </if>
+            <if test="profileUrl != null and profileUrl!=''">
+                `profile_url` = #{profileUrl} and
+            </if>
+            <if test="isTheLatest != null">
+                `is_the_latest` = #{isTheLatest} and
             </if>
             <if test = "(_parameter instanceof com.amov.homesite.model.Course$QueryBuilder) == true">
                     <if test="courseIdList != null">
@@ -457,6 +559,38 @@
                     </foreach>
                     ) and
                 </if>
+                    <if test="profileUrlList != null">
+                        `profile_url` in
+                        <foreach collection="profileUrlList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyProfileUrl!=null and fuzzyProfileUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyProfileUrl"  separator="or" item="item">
+                        `Profile_url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyProfileUrl!=null and rightFuzzyProfileUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyProfileUrl"  separator="or" item="item">
+                        `Profile_url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="isTheLatestList != null">
+                        `is_the_latest` in
+                        <foreach collection="isTheLatestList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="isTheLatestSt !=null">
+                    `is_the_latest` >= #{isTheLatestSt} and
+                </if>
+                <if test="isTheLatestEd!=null">
+                    `is_the_latest` &lt;= #{isTheLatestEd} and
+                </if>
             </if>
         </trim>
         limit 1
@@ -470,6 +604,8 @@
         `classify`,
         `difficulty`,
         `extra_intro`,
+        `profile_url`,
+        `is_the_latest`+0 as `is_the_latest`,
         </trim>
     </sql>
 
@@ -508,6 +644,12 @@
                     <if test="fetchFields.fetchFields.extraIntro==true">
                         `extra_intro`,
                     </if>
+                    <if test="fetchFields.fetchFields.profileUrl==true">
+                        `profile_url`,
+                    </if>
+                    <if test="fetchFields.fetchFields.isTheLatest==true">
+                        `is_the_latest`+0 as `is_the_latest`,
+                    </if>
                     </if>
                     <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
                     <if test="fetchFields.excludeFields.courseId==null">
@@ -527,6 +669,12 @@
                     </if>
                     <if test="fetchFields.excludeFields.extraIntro==null">
                         `extra_intro`,
+                    </if>
+                    <if test="fetchFields.excludeFields.profileUrl==null">
+                        `profile_url`,
+                    </if>
+                    <if test="fetchFields.excludeFields.isTheLatest==null">
+                        `is_the_latest`+0 as `is_the_latest`,
                     </if>
                     </if>
                     <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">

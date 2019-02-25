@@ -17,6 +17,15 @@
                     <if test="title!=null">
                         `title`,
                     </if>
+                    <if test="learnItem!=null">
+                        `learn_item`,
+                    </if>
+                    <if test="number!=null">
+                        `number`,
+                    </if>
+                    <if test="subtitle!=null">
+                        `subtitle`,
+                    </if>
         </trim>
         )
         VALUES
@@ -30,6 +39,15 @@
                 </if>
                 <if test="title!=null">
                     #{title},
+                </if>
+                <if test="learnItem!=null">
+                    #{learnItem},
+                </if>
+                <if test="number!=null">
+                    #{number},
+                </if>
+                <if test="subtitle!=null">
+                    #{subtitle},
                 </if>
         </trim>
         )
@@ -48,6 +66,15 @@
             <if test="title != null and title!=''">
                 `title` = #{title},
             </if>
+            <if test="learnItem != null and learnItem!=''">
+                `learn_item` = #{learnItem},
+            </if>
+            <if test="number != null">
+                `number` = #{number},
+            </if>
+            <if test="subtitle != null and subtitle!=''">
+                `subtitle` = #{subtitle},
+            </if>
         </trim>
         WHERE
         <trim suffixOverrides="and">
@@ -64,6 +91,15 @@
         </if>
         <if test="set.title != null and set.title!=''">
             `title` = #{set.title},
+        </if>
+        <if test="set.learnItem != null and set.learnItem!=''">
+            `learn_item` = #{set.learnItem},
+        </if>
+        <if test="set.number != null">
+            `number` = #{set.number},
+        </if>
+        <if test="set.subtitle != null and set.subtitle!=''">
+            `subtitle` = #{set.subtitle},
         </if>
         </trim>
         <trim prefix="where" suffixOverrides="and | or">
@@ -111,6 +147,58 @@
                 </foreach>
                 ) and
             </if>
+                <if test="where.learnItemList != null">
+                    `learn_item` in
+                    <foreach collection="where.learnItemList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyLearnItem!=null and where.fuzzyLearnItem.size()>0">
+                (
+                <foreach collection="where.fuzzyLearnItem"  separator="or" item="item">
+                    `Learn_item` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyLearnItem!=null and where.rightFuzzyLearnItem.size()>0">
+                (
+                <foreach collection="where.rightFuzzyLearnItem"  separator="or" item="item">
+                    `Learn_item` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+                <if test="where.numberList != null">
+                    `number` in
+                    <foreach collection="where.numberList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.numberSt !=null">
+                `number` >= #{where.numberSt} and
+            </if>
+            <if test="where.numberEd!=null">
+                `number` &lt;= #{where.numberEd} and
+            </if>
+                <if test="where.subtitleList != null">
+                    `subtitle` in
+                    <foreach collection="where.subtitleList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzySubtitle!=null and where.fuzzySubtitle.size()>0">
+                (
+                <foreach collection="where.fuzzySubtitle"  separator="or" item="item">
+                    `Subtitle` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzySubtitle!=null and where.rightFuzzySubtitle.size()>0">
+                (
+                <foreach collection="where.rightFuzzySubtitle"  separator="or" item="item">
+                    `Subtitle` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
         </trim>
     </update>
 
@@ -119,6 +207,9 @@
         <result property="courseChapterId" column="course_chapter_id"/>
         <result property="courseId" column="course_id"/>
         <result property="title" column="title"/>
+        <result property="learnItem" column="learn_item"/>
+        <result property="number" column="number"/>
+        <result property="subtitle" column="subtitle"/>
     </resultMap>
 
 
@@ -135,6 +226,15 @@
             </if>
             <if test="title != null and title!=''">
                 `title` = #{title} and
+            </if>
+            <if test="learnItem != null and learnItem!=''">
+                `learn_item` = #{learnItem} and
+            </if>
+            <if test="number != null">
+                `number` = #{number} and
+            </if>
+            <if test="subtitle != null and subtitle!=''">
+                `subtitle` = #{subtitle} and
             </if>
             <if test = "(_parameter instanceof com.amov.homesite.model.CourseChapter$QueryBuilder) == true">
                 <if test="courseChapterIdList != null">
@@ -181,6 +281,58 @@
                     </foreach>
                     ) and
                 </if>
+                <if test="learnItemList != null">
+                    `learn_item` in
+                    <foreach collection="learnItemList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyLearnItem!=null and fuzzyLearnItem.size()>0">
+                    (
+                    <foreach collection="fuzzyLearnItem"  separator="or" item="item">
+                        `Learn_item` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyLearnItem!=null and rightFuzzyLearnItem.size()>0">
+                    (
+                    <foreach collection="rightFuzzyLearnItem"  separator="or" item="item">
+                        `Learn_item` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="numberList != null">
+                    `number` in
+                    <foreach collection="numberList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="numberSt !=null">
+                    `number` >= #{numberSt} and
+                </if>
+                <if test="numberEd!=null">
+                    `number` &lt;= #{numberEd} and
+                </if>
+                <if test="subtitleList != null">
+                    `subtitle` in
+                    <foreach collection="subtitleList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzySubtitle!=null and fuzzySubtitle.size()>0">
+                    (
+                    <foreach collection="fuzzySubtitle"  separator="or" item="item">
+                        `Subtitle` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzySubtitle!=null and rightFuzzySubtitle.size()>0">
+                    (
+                    <foreach collection="rightFuzzySubtitle"  separator="or" item="item">
+                        `Subtitle` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
             </if>
         </trim>
     </select>
@@ -198,6 +350,15 @@
             </if>
             <if test="title != null and title!=''">
                 `title` = #{title} and
+            </if>
+            <if test="learnItem != null and learnItem!=''">
+                `learn_item` = #{learnItem} and
+            </if>
+            <if test="number != null">
+                `number` = #{number} and
+            </if>
+            <if test="subtitle != null and subtitle!=''">
+                `subtitle` = #{subtitle} and
             </if>
             <if test = "(_parameter instanceof com.amov.homesite.model.CourseChapter$QueryBuilder) == true">
                     <if test="courseChapterIdList != null">
@@ -244,6 +405,58 @@
                     </foreach>
                     ) and
                 </if>
+                    <if test="learnItemList != null">
+                        `learn_item` in
+                        <foreach collection="learnItemList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyLearnItem!=null and fuzzyLearnItem.size()>0">
+                    (
+                    <foreach collection="fuzzyLearnItem"  separator="or" item="item">
+                        `Learn_item` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyLearnItem!=null and rightFuzzyLearnItem.size()>0">
+                    (
+                    <foreach collection="rightFuzzyLearnItem"  separator="or" item="item">
+                        `Learn_item` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                    <if test="numberList != null">
+                        `number` in
+                        <foreach collection="numberList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="numberSt !=null">
+                    `number` >= #{numberSt} and
+                </if>
+                <if test="numberEd!=null">
+                    `number` &lt;= #{numberEd} and
+                </if>
+                    <if test="subtitleList != null">
+                        `subtitle` in
+                        <foreach collection="subtitleList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzySubtitle!=null and fuzzySubtitle.size()>0">
+                    (
+                    <foreach collection="fuzzySubtitle"  separator="or" item="item">
+                        `Subtitle` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzySubtitle!=null and rightFuzzySubtitle.size()>0">
+                    (
+                    <foreach collection="rightFuzzySubtitle"  separator="or" item="item">
+                        `Subtitle` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
             </if>
         </trim>
         limit 1
@@ -254,6 +467,9 @@
         `course_chapter_id`,
         `course_id`,
         `title`,
+        `learn_item`,
+        `number`,
+        `subtitle`,
         </trim>
     </sql>
 
@@ -283,6 +499,15 @@
                     <if test="fetchFields.fetchFields.title==true">
                         `title`,
                     </if>
+                    <if test="fetchFields.fetchFields.learnItem==true">
+                        `learn_item`,
+                    </if>
+                    <if test="fetchFields.fetchFields.number==true">
+                        `number`,
+                    </if>
+                    <if test="fetchFields.fetchFields.subtitle==true">
+                        `subtitle`,
+                    </if>
                     </if>
                     <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
                     <if test="fetchFields.excludeFields.courseChapterId==null">
@@ -293,6 +518,15 @@
                     </if>
                     <if test="fetchFields.excludeFields.title==null">
                         `title`,
+                    </if>
+                    <if test="fetchFields.excludeFields.learnItem==null">
+                        `learn_item`,
+                    </if>
+                    <if test="fetchFields.excludeFields.number==null">
+                        `number`,
+                    </if>
+                    <if test="fetchFields.excludeFields.subtitle==null">
+                        `subtitle`,
                     </if>
                     </if>
                     <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">

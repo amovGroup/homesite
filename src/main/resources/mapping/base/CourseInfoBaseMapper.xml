@@ -17,6 +17,9 @@
                     <if test="courseUrl!=null">
                         `course_url`,
                     </if>
+                    <if test="content!=null">
+                        `content`,
+                    </if>
         </trim>
         )
         VALUES
@@ -30,6 +33,9 @@
                 </if>
                 <if test="courseUrl!=null">
                     #{courseUrl},
+                </if>
+                <if test="content!=null">
+                    #{content},
                 </if>
         </trim>
         )
@@ -48,6 +54,9 @@
             <if test="courseUrl != null and courseUrl!=''">
                 `course_url` = #{courseUrl},
             </if>
+            <if test="content != null and content!=''">
+                `content` = #{content},
+            </if>
         </trim>
         WHERE
         <trim suffixOverrides="and">
@@ -64,6 +73,9 @@
         </if>
         <if test="set.courseUrl != null and set.courseUrl!=''">
             `course_url` = #{set.courseUrl},
+        </if>
+        <if test="set.content != null and set.content!=''">
+            `content` = #{set.content},
         </if>
         </trim>
         <trim prefix="where" suffixOverrides="and | or">
@@ -111,6 +123,26 @@
                 </foreach>
                 ) and
             </if>
+                <if test="where.contentList != null">
+                    `content` in
+                    <foreach collection="where.contentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test ="where.fuzzyContent!=null and where.fuzzyContent.size()>0">
+                (
+                <foreach collection="where.fuzzyContent"  separator="or" item="item">
+                    `Content` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test ="where.rightFuzzyContent!=null and where.rightFuzzyContent.size()>0">
+                (
+                <foreach collection="where.rightFuzzyContent"  separator="or" item="item">
+                    `Content` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
         </trim>
     </update>
 
@@ -119,6 +151,7 @@
         <result property="courseInfoId" column="course_info_id"/>
         <result property="courseId" column="course_id"/>
         <result property="courseUrl" column="course_url"/>
+        <result property="content" column="content"/>
     </resultMap>
 
 
@@ -135,6 +168,9 @@
             </if>
             <if test="courseUrl != null and courseUrl!=''">
                 `course_url` = #{courseUrl} and
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content} and
             </if>
             <if test = "(_parameter instanceof com.amov.homesite.model.CourseInfo$QueryBuilder) == true">
                 <if test="courseInfoIdList != null">
@@ -181,6 +217,26 @@
                     </foreach>
                     ) and
                 </if>
+                <if test="contentList != null">
+                    `content` in
+                    <foreach collection="contentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test ="fuzzyContent!=null and fuzzyContent.size()>0">
+                    (
+                    <foreach collection="fuzzyContent"  separator="or" item="item">
+                        `Content` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyContent!=null and rightFuzzyContent.size()>0">
+                    (
+                    <foreach collection="rightFuzzyContent"  separator="or" item="item">
+                        `Content` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
             </if>
         </trim>
     </select>
@@ -198,6 +254,9 @@
             </if>
             <if test="courseUrl != null and courseUrl!=''">
                 `course_url` = #{courseUrl} and
+            </if>
+            <if test="content != null and content!=''">
+                `content` = #{content} and
             </if>
             <if test = "(_parameter instanceof com.amov.homesite.model.CourseInfo$QueryBuilder) == true">
                     <if test="courseInfoIdList != null">
@@ -244,6 +303,26 @@
                     </foreach>
                     ) and
                 </if>
+                    <if test="contentList != null">
+                        `content` in
+                        <foreach collection="contentList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test ="fuzzyContent!=null and fuzzyContent.size()>0">
+                    (
+                    <foreach collection="fuzzyContent"  separator="or" item="item">
+                        `Content` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test ="rightFuzzyContent!=null and rightFuzzyContent.size()>0">
+                    (
+                    <foreach collection="rightFuzzyContent"  separator="or" item="item">
+                        `Content` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
             </if>
         </trim>
         limit 1
@@ -254,6 +333,7 @@
         `course_info_id`,
         `course_id`,
         `course_url`,
+        `content`,
         </trim>
     </sql>
 
@@ -283,6 +363,9 @@
                     <if test="fetchFields.fetchFields.courseUrl==true">
                         `course_url`,
                     </if>
+                    <if test="fetchFields.fetchFields.content==true">
+                        `content`,
+                    </if>
                     </if>
                     <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
                     <if test="fetchFields.excludeFields.courseInfoId==null">
@@ -293,6 +376,9 @@
                     </if>
                     <if test="fetchFields.excludeFields.courseUrl==null">
                         `course_url`,
+                    </if>
+                    <if test="fetchFields.excludeFields.content==null">
+                        `content`,
                     </if>
                     </if>
                     <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">

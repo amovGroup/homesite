@@ -26,13 +26,13 @@ public class HelloController {
     public int hi() {
         Carousel carousel = new Carousel();
         carousel.setLocation(0);
-        carousel.setImageUrl("http://www.baidu.com");
+        carousel.setImageUrl("http://www.amovauto.com");
         return carouselService.insertCarousel(carousel);
     }
 
     @RequestMapping("/{dir}/{pic}")
     public String how(@PathVariable String dir, @PathVariable String pic) {
-        String url = "http://47.99.155.46:9333/dir/assign";
+        String url = "http://localhost:9333/dir/assign";
         String path = "/Users/toy/Projects/IncProjects/无人机网站/upload/"+dir+"/"+pic;
         MultiValueMap<String, String> params= new LinkedMultiValueMap<String, String>();
         SeaweedAssignJSON res = seaweedService.assignFid(url, HttpMethod.GET, params);

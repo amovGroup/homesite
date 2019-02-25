@@ -20,6 +20,9 @@
                     <if test="content!=null">
                         `content`,
                     </if>
+                    <if test="number!=null">
+                        `number`,
+                    </if>
         </trim>
         )
         VALUES
@@ -36,6 +39,9 @@
                 </if>
                 <if test="content!=null">
                     #{content},
+                </if>
+                <if test="number!=null">
+                    #{number},
                 </if>
         </trim>
         )
@@ -57,6 +63,9 @@
             <if test="content != null and content!=''">
                 `content` = #{content},
             </if>
+            <if test="number != null">
+                `number` = #{number},
+            </if>
         </trim>
         WHERE
         <trim suffixOverrides="and">
@@ -76,6 +85,9 @@
         </if>
         <if test="set.content != null and set.content!=''">
             `content` = #{set.content},
+        </if>
+        <if test="set.number != null">
+            `number` = #{set.number},
         </if>
         </trim>
         <trim prefix="where" suffixOverrides="and | or">
@@ -143,6 +155,18 @@
                 </foreach>
                 ) and
             </if>
+                <if test="where.numberList != null">
+                    `number` in
+                    <foreach collection="where.numberList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+            <if test="where.numberSt !=null">
+                `number` >= #{where.numberSt} and
+            </if>
+            <if test="where.numberEd!=null">
+                `number` &lt;= #{where.numberEd} and
+            </if>
         </trim>
     </update>
 
@@ -152,6 +176,7 @@
         <result property="courseChapterId" column="course_chapter_id"/>
         <result property="title" column="title"/>
         <result property="content" column="content"/>
+        <result property="number" column="number"/>
     </resultMap>
 
 
@@ -171,6 +196,9 @@
             </if>
             <if test="content != null and content!=''">
                 `content` = #{content} and
+            </if>
+            <if test="number != null">
+                `number` = #{number} and
             </if>
             <if test = "(_parameter instanceof com.amov.homesite.model.CoursePeriod$QueryBuilder) == true">
                 <if test="coursePeriodIdList != null">
@@ -237,6 +265,18 @@
                     </foreach>
                     ) and
                 </if>
+                <if test="numberList != null">
+                    `number` in
+                    <foreach collection="numberList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach> and
+                </if>
+                <if test="numberSt !=null">
+                    `number` >= #{numberSt} and
+                </if>
+                <if test="numberEd!=null">
+                    `number` &lt;= #{numberEd} and
+                </if>
             </if>
         </trim>
     </select>
@@ -257,6 +297,9 @@
             </if>
             <if test="content != null and content!=''">
                 `content` = #{content} and
+            </if>
+            <if test="number != null">
+                `number` = #{number} and
             </if>
             <if test = "(_parameter instanceof com.amov.homesite.model.CoursePeriod$QueryBuilder) == true">
                     <if test="coursePeriodIdList != null">
@@ -323,6 +366,18 @@
                     </foreach>
                     ) and
                 </if>
+                    <if test="numberList != null">
+                        `number` in
+                        <foreach collection="numberList" close=")" open="(" separator="," item="item">
+                            #{item}
+                        </foreach> and
+                    </if>
+                <if test="numberSt !=null">
+                    `number` >= #{numberSt} and
+                </if>
+                <if test="numberEd!=null">
+                    `number` &lt;= #{numberEd} and
+                </if>
             </if>
         </trim>
         limit 1
@@ -334,6 +389,7 @@
         `course_chapter_id`,
         `title`,
         `content`,
+        `number`,
         </trim>
     </sql>
 
@@ -366,6 +422,9 @@
                     <if test="fetchFields.fetchFields.content==true">
                         `content`,
                     </if>
+                    <if test="fetchFields.fetchFields.number==true">
+                        `number`,
+                    </if>
                     </if>
                     <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
                     <if test="fetchFields.excludeFields.coursePeriodId==null">
@@ -379,6 +438,9 @@
                     </if>
                     <if test="fetchFields.excludeFields.content==null">
                         `content`,
+                    </if>
+                    <if test="fetchFields.excludeFields.number==null">
+                        `number`,
                     </if>
                     </if>
                     <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">

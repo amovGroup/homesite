@@ -10,7 +10,7 @@ import java.util.List;
 */
 public class CourseChapter implements Serializable {
 
-    private static final long serialVersionUID = 1544694150806L;
+    private static final long serialVersionUID = 1547897897722L;
 
 
     /**
@@ -32,6 +32,24 @@ public class CourseChapter implements Serializable {
     */
     private String title;
 
+    /**
+    * 学习条目
+    * isNullAble:1
+    */
+    private String learnItem;
+
+    /**
+    * 章节编号
+    * isNullAble:1
+    */
+    private Integer number;
+
+    /**
+    * 章节子标题
+    * isNullAble:1
+    */
+    private String subtitle;
+
 
     public void setCourseChapterId(Integer courseChapterId){this.courseChapterId = courseChapterId;}
 
@@ -44,12 +62,27 @@ public class CourseChapter implements Serializable {
     public void setTitle(String title){this.title = title;}
 
     public String getTitle(){return this.title;}
+
+    public void setLearnItem(String learnItem){this.learnItem = learnItem;}
+
+    public String getLearnItem(){return this.learnItem;}
+
+    public void setNumber(Integer number){this.number = number;}
+
+    public Integer getNumber(){return this.number;}
+
+    public void setSubtitle(String subtitle){this.subtitle = subtitle;}
+
+    public String getSubtitle(){return this.subtitle;}
     @Override
     public String toString() {
         return "CourseChapter{" +
                 "courseChapterId='" + courseChapterId + '\'' +
                 "courseId='" + courseId + '\'' +
                 "title='" + title + '\'' +
+                "learnItem='" + learnItem + '\'' +
+                "number='" + number + '\'' +
+                "subtitle='" + subtitle + '\'' +
             '}';
     }
 
@@ -134,6 +167,42 @@ public class CourseChapter implements Serializable {
         private List<String> rightFuzzyTitle;
 
         public List<String> getRightFuzzyTitle(){return this.rightFuzzyTitle;}
+        private List<String> learnItemList;
+
+        public List<String> getLearnItemList(){return this.learnItemList;}
+
+
+        private List<String> fuzzyLearnItem;
+
+        public List<String> getFuzzyLearnItem(){return this.fuzzyLearnItem;}
+
+        private List<String> rightFuzzyLearnItem;
+
+        public List<String> getRightFuzzyLearnItem(){return this.rightFuzzyLearnItem;}
+        private List<Integer> numberList;
+
+        public List<Integer> getNumberList(){return this.numberList;}
+
+        private Integer numberSt;
+
+        private Integer numberEd;
+
+        public Integer getNumberSt(){return this.numberSt;}
+
+        public Integer getNumberEd(){return this.numberEd;}
+
+        private List<String> subtitleList;
+
+        public List<String> getSubtitleList(){return this.subtitleList;}
+
+
+        private List<String> fuzzySubtitle;
+
+        public List<String> getFuzzySubtitle(){return this.fuzzySubtitle;}
+
+        private List<String> rightFuzzySubtitle;
+
+        public List<String> getRightFuzzySubtitle(){return this.rightFuzzySubtitle;}
         private QueryBuilder (){
             this.fetchFields = new HashMap<>();
         }
@@ -264,6 +333,137 @@ public class CourseChapter implements Serializable {
             setFetchFields("excludeFields","title");
             return this;
         }
+
+        public QueryBuilder fuzzyLearnItem (List<String> fuzzyLearnItem){
+            this.fuzzyLearnItem = fuzzyLearnItem;
+            return this;
+        }
+
+        public QueryBuilder fuzzyLearnItem (String ... fuzzyLearnItem){
+            this.fuzzyLearnItem = solveNullList(fuzzyLearnItem);
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyLearnItem (List<String> rightFuzzyLearnItem){
+            this.rightFuzzyLearnItem = rightFuzzyLearnItem;
+            return this;
+        }
+
+        public QueryBuilder rightFuzzyLearnItem (String ... rightFuzzyLearnItem){
+            this.rightFuzzyLearnItem = solveNullList(rightFuzzyLearnItem);
+            return this;
+        }
+
+        public QueryBuilder learnItem(String learnItem){
+            setLearnItem(learnItem);
+            return this;
+        }
+
+        public QueryBuilder learnItemList(String ... learnItem){
+            this.learnItemList = solveNullList(learnItem);
+            return this;
+        }
+
+        public QueryBuilder learnItemList(List<String> learnItem){
+            this.learnItemList = learnItem;
+            return this;
+        }
+
+        public QueryBuilder fetchLearnItem(){
+            setFetchFields("fetchFields","learnItem");
+            return this;
+        }
+
+        public QueryBuilder excludeLearnItem(){
+            setFetchFields("excludeFields","learnItem");
+            return this;
+        }
+
+        public QueryBuilder numberBetWeen(Integer numberSt,Integer numberEd){
+            this.numberSt = numberSt;
+            this.numberEd = numberEd;
+            return this;
+        }
+
+        public QueryBuilder numberGreaterEqThan(Integer numberSt){
+            this.numberSt = numberSt;
+            return this;
+        }
+        public QueryBuilder numberLessEqThan(Integer numberEd){
+            this.numberEd = numberEd;
+            return this;
+        }
+
+
+        public QueryBuilder number(Integer number){
+            setNumber(number);
+            return this;
+        }
+
+        public QueryBuilder numberList(Integer ... number){
+            this.numberList = solveNullList(number);
+            return this;
+        }
+
+        public QueryBuilder numberList(List<Integer> number){
+            this.numberList = number;
+            return this;
+        }
+
+        public QueryBuilder fetchNumber(){
+            setFetchFields("fetchFields","number");
+            return this;
+        }
+
+        public QueryBuilder excludeNumber(){
+            setFetchFields("excludeFields","number");
+            return this;
+        }
+
+        public QueryBuilder fuzzySubtitle (List<String> fuzzySubtitle){
+            this.fuzzySubtitle = fuzzySubtitle;
+            return this;
+        }
+
+        public QueryBuilder fuzzySubtitle (String ... fuzzySubtitle){
+            this.fuzzySubtitle = solveNullList(fuzzySubtitle);
+            return this;
+        }
+
+        public QueryBuilder rightFuzzySubtitle (List<String> rightFuzzySubtitle){
+            this.rightFuzzySubtitle = rightFuzzySubtitle;
+            return this;
+        }
+
+        public QueryBuilder rightFuzzySubtitle (String ... rightFuzzySubtitle){
+            this.rightFuzzySubtitle = solveNullList(rightFuzzySubtitle);
+            return this;
+        }
+
+        public QueryBuilder subtitle(String subtitle){
+            setSubtitle(subtitle);
+            return this;
+        }
+
+        public QueryBuilder subtitleList(String ... subtitle){
+            this.subtitleList = solveNullList(subtitle);
+            return this;
+        }
+
+        public QueryBuilder subtitleList(List<String> subtitle){
+            this.subtitleList = subtitle;
+            return this;
+        }
+
+        public QueryBuilder fetchSubtitle(){
+            setFetchFields("fetchFields","subtitle");
+            return this;
+        }
+
+        public QueryBuilder excludeSubtitle(){
+            setFetchFields("excludeFields","subtitle");
+            return this;
+        }
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -343,6 +543,42 @@ public class CourseChapter implements Serializable {
         private List<String> rightFuzzyTitle;
 
         public List<String> getRightFuzzyTitle(){return this.rightFuzzyTitle;}
+        private List<String> learnItemList;
+
+        public List<String> getLearnItemList(){return this.learnItemList;}
+
+
+        private List<String> fuzzyLearnItem;
+
+        public List<String> getFuzzyLearnItem(){return this.fuzzyLearnItem;}
+
+        private List<String> rightFuzzyLearnItem;
+
+        public List<String> getRightFuzzyLearnItem(){return this.rightFuzzyLearnItem;}
+        private List<Integer> numberList;
+
+        public List<Integer> getNumberList(){return this.numberList;}
+
+        private Integer numberSt;
+
+        private Integer numberEd;
+
+        public Integer getNumberSt(){return this.numberSt;}
+
+        public Integer getNumberEd(){return this.numberEd;}
+
+        private List<String> subtitleList;
+
+        public List<String> getSubtitleList(){return this.subtitleList;}
+
+
+        private List<String> fuzzySubtitle;
+
+        public List<String> getFuzzySubtitle(){return this.fuzzySubtitle;}
+
+        private List<String> rightFuzzySubtitle;
+
+        public List<String> getRightFuzzySubtitle(){return this.rightFuzzySubtitle;}
 
         public ConditionBuilder courseChapterIdBetWeen(Integer courseChapterIdSt,Integer courseChapterIdEd){
             this.courseChapterIdSt = courseChapterIdSt;
@@ -426,6 +662,92 @@ public class CourseChapter implements Serializable {
             return this;
         }
 
+        public ConditionBuilder fuzzyLearnItem (List<String> fuzzyLearnItem){
+            this.fuzzyLearnItem = fuzzyLearnItem;
+            return this;
+        }
+
+        public ConditionBuilder fuzzyLearnItem (String ... fuzzyLearnItem){
+            this.fuzzyLearnItem = solveNullList(fuzzyLearnItem);
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzyLearnItem (List<String> rightFuzzyLearnItem){
+            this.rightFuzzyLearnItem = rightFuzzyLearnItem;
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzyLearnItem (String ... rightFuzzyLearnItem){
+            this.rightFuzzyLearnItem = solveNullList(rightFuzzyLearnItem);
+            return this;
+        }
+
+        public ConditionBuilder learnItemList(String ... learnItem){
+            this.learnItemList = solveNullList(learnItem);
+            return this;
+        }
+
+        public ConditionBuilder learnItemList(List<String> learnItem){
+            this.learnItemList = learnItem;
+            return this;
+        }
+
+        public ConditionBuilder numberBetWeen(Integer numberSt,Integer numberEd){
+            this.numberSt = numberSt;
+            this.numberEd = numberEd;
+            return this;
+        }
+
+        public ConditionBuilder numberGreaterEqThan(Integer numberSt){
+            this.numberSt = numberSt;
+            return this;
+        }
+        public ConditionBuilder numberLessEqThan(Integer numberEd){
+            this.numberEd = numberEd;
+            return this;
+        }
+
+
+        public ConditionBuilder numberList(Integer ... number){
+            this.numberList = solveNullList(number);
+            return this;
+        }
+
+        public ConditionBuilder numberList(List<Integer> number){
+            this.numberList = number;
+            return this;
+        }
+
+        public ConditionBuilder fuzzySubtitle (List<String> fuzzySubtitle){
+            this.fuzzySubtitle = fuzzySubtitle;
+            return this;
+        }
+
+        public ConditionBuilder fuzzySubtitle (String ... fuzzySubtitle){
+            this.fuzzySubtitle = solveNullList(fuzzySubtitle);
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzySubtitle (List<String> rightFuzzySubtitle){
+            this.rightFuzzySubtitle = rightFuzzySubtitle;
+            return this;
+        }
+
+        public ConditionBuilder rightFuzzySubtitle (String ... rightFuzzySubtitle){
+            this.rightFuzzySubtitle = solveNullList(rightFuzzySubtitle);
+            return this;
+        }
+
+        public ConditionBuilder subtitleList(String ... subtitle){
+            this.subtitleList = solveNullList(subtitle);
+            return this;
+        }
+
+        public ConditionBuilder subtitleList(List<String> subtitle){
+            this.subtitleList = subtitle;
+            return this;
+        }
+
         private <T>List<T> solveNullList(T ... objs){
             if (objs != null){
             List<T> list = new ArrayList<>();
@@ -460,6 +782,18 @@ public class CourseChapter implements Serializable {
         }
         public Builder title(String title){
             this.obj.setTitle(title);
+            return this;
+        }
+        public Builder learnItem(String learnItem){
+            this.obj.setLearnItem(learnItem);
+            return this;
+        }
+        public Builder number(Integer number){
+            this.obj.setNumber(number);
+            return this;
+        }
+        public Builder subtitle(String subtitle){
+            this.obj.setSubtitle(subtitle);
             return this;
         }
         public CourseChapter build(){return obj;}
